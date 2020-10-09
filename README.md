@@ -1,5 +1,30 @@
 This project was bootstrapped with [DHIS2 Application Platform](https://github.com/dhis2/app-platform).
 
+## Cypress
+
+Add a cypress.env.json
+
+| key                   | value                   |
+| --------------------- | ----------------------- |
+| dhis2_base_url        | http://localhost:9999   |
+| dhis2_username        | username                |
+| dhis2_password        | password                |
+| dhis2_datatest_prefix | dhis2-clustermanagement |
+
+## DHIS2 cli style
+
+This project uses the @dhis2/cli-app-scripts for linting, prettier and husky
+
+## Usefull links
+
+[DHIS2 npm](https://www.npmjs.com/search?q=%40dhis2)
+
+[DHIS2 storybook](https://ui.dhis2.nu/demo/?path=/story/menu--default)
+
+[DHIS2 style CLI](https://cli-style.dhis2.nu/#/)
+
+[DHIS2 CLI](https://cli.dhis2.nu/#/)
+
 ## Available Scripts
 
 In the project directory, you can run:
