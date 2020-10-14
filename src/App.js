@@ -4,7 +4,7 @@ import { Menu, MenuItem, MenuSectionHeader } from '@dhis2/ui'
 import { useDataQuery } from '@dhis2/app-runtime'
 import styles from './App.module.css'
 import Map from './components/Map'
-import Clusters from './components/Clusters'
+import { Clusters } from './components/Clusters'
 
 function reducer(state, action) {
     switch (action.type) {
@@ -20,7 +20,7 @@ function reducer(state, action) {
     }
 }
 const initialState = {
-    cluster: false,
+    cluster: true,
     map: false,
 }
 
