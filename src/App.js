@@ -21,12 +21,12 @@ const queryClusters = {
 }
 
 const MyApp = () => {
-    const { error, loading, data } = useDataQuery(queryClusters)
+    const { data } = useDataQuery(queryClusters)
     console.log('data', data)
     return (
         <div className={classes.container}>
             <DataQuery query={query}>
-                {({ error, loading, data }) => {
+                {({ error, loading }) => {
                     if (error) return <span>ERROR</span>
                     if (loading) return <span>...</span>
                     return (
