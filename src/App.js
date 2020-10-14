@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
 import i18n from '@dhis2/d2-i18n'
 import { Menu, MenuItem, MenuSectionHeader } from '@dhis2/ui'
-
+import { useDataQuery } from '@dhis2/app-runtime'
 import styles from './App.module.css'
 import Map from './components/Map'
 import Clusters from './components/Clusters'
@@ -23,7 +23,21 @@ const initialState = {
     cluster: false,
     map: false,
 }
+
+const queryClusters = {
+    trackedEntityInstances: {
+        resource: 'trackedEntityInstances',
+        params: {
+            paging: 'false',
+            ou: 'uoPrVFsvJiY',
+            fields: ['orgUnit', 'lastUpdated', 'created'],
+        },
+    },
+}
+
 const MyApp = () => {
+    const { data } = useDataQuery(queryClusters)
+    console.log('data', data)
     const [{ cluster, map }, dispatch] = useReducer(reducer, initialState)
 
     return (
