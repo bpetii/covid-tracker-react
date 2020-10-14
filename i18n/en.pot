@@ -5,11 +5,14 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2020-10-14T17:46:08.676Z\n"
-"PO-Revision-Date: 2020-10-14T17:46:08.676Z\n"
+"POT-Creation-Date: 2020-10-14T19:07:40.770Z\n"
+"PO-Revision-Date: 2020-10-14T19:07:40.770Z\n"
 
-msgid "Hello {{name}}"
+msgid "Menu"
 msgstr ""
 
-msgid "Welcome to DHIS2!"
+msgid "Programs"
+msgstr ""
+
+msgid "Data sets"
 msgstr ""
