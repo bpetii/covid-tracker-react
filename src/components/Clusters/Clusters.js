@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDataQuery } from '@dhis2/app-runtime'
-import Spinner from '../Spinner/Spinner'
-import Modal from '../Modal/Modal'
+import Spinner from '../UI/Spinner/Spinner'
+import Modal from '../UI/Modal/Modal'
 import {
     Table,
     TableHead,
@@ -12,8 +12,8 @@ import {
     TableCell,
 } from '@dhis2/ui-core'
 
-import Collapse from '../Collapse/Collapse'
-import Backdrop from '../Backdrop/Backdrop'
+import Accordion from '../Accordion/Accordion'
+import accordion from '../Accordion/Accordion'
 
 const CLUSTER_ID = 'Unique ID'
 const CLUSTER_NAME = 'Cluster name'
@@ -78,11 +78,9 @@ const Clusters = () => {
 
     return (
         <div>
-            <Modal show={isOpen} modalClosed={toggleCollapseHandler}>
-                This is a test
-            </Modal>
+            <Modal>This is a test</Modal>
             {loading && <Spinner />}
-            {error && <span>{`ERROR: ${error.message}`}</span>}
+            {error && <Modal>{error.message}</Modal>}
             {data && (
                 <Table dataTest="dhis2-uicore-table">
                     <TableHead dataTest="dhis2-uicore-tablehead">
@@ -138,16 +136,7 @@ const Clusters = () => {
                                             </button>
                                         </TableCell>
                                     </TableRow>
-                                    {/*  <TableRow>
-                                        <TableCell
-                                            colSpan="5"
-                                            dataTest="dhis2-uicore-tablecell"
-                                        >
-                                            <Collapse
-                                                isOpen={isOpen}
-                                            ></Collapse>
-                                        </TableCell>
-                                    </TableRow> */}
+                                    {isOpen ? <Accordion /> : null}
                                 </>
                             )
                         })}
