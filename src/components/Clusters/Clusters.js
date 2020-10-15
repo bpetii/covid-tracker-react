@@ -10,6 +10,8 @@ import {
     TableCell,
 } from '@dhis2/ui-core'
 
+import Collapse from '../Collapse/Collapse'
+
 const queryClusters = {
     trackedEntityInstances: {
         resource: 'trackedEntityInstances',
@@ -23,11 +25,17 @@ const queryClusters = {
 }
 
 const Clusters = () => {
+    const [isOpen, setOpen] = useState(false)
+
     let entityInstances = null
     const { loading, error, data } = useDataQuery(queryClusters)
 
     if (data) {
         entityInstances = data.trackedEntityInstances.trackedEntityInstances
+    }
+
+    const toggleCollapseHandler = e => {
+        setOpen(prevState => !prevState)
     }
 
     return (
@@ -52,14 +60,22 @@ const Clusters = () => {
                             </TableCellHead>
                         </TableRowHead>
                     </TableHead>
-                    {entityInstances.map(tei => {
-                        console.log(tei.attributes)
-                        return (
-                            <TableBody
-                                key={Math.random(10)}
-                                dataTest="dhis2-uicore-tablebody"
-                            >
-                                <TableRow dataTest="dhis2-uicore-tablerow">
+                    <TableBody dataTest="dhis2-uicore-tablebody">
+                        {entityInstances.map(tei => {
+                            return (
+                                <TableRow
+                                    key={
+                                        tei.attributes[
+                                            tei.attributes.findIndex(attr => {
+                                                return (
+                                                    attr.displayName ===
+                                                    'Unique ID'
+                                                )
+                                            })
+                                        ].value
+                                    }
+                                    dataTest="dhis2-uicore-tablerow"
+                                >
                                     <TableCell dataTest="dhis2-uicore-tablecell">
                                         {
                                             tei.attributes[
@@ -123,14 +139,22 @@ const Clusters = () => {
                                             ].value
                                         }
                                     </TableCell>
-
-                                    <button> Toggle</button>
+                                    <TableCell>
+                                        <button
+                                            onClick={e =>
+                                                toggleCollapseHandler(e)
+                                            }
+                                        >
+                                            Toggle
+                                        </button>
+                                    </TableCell>
                                 </TableRow>
-                            </TableBody>
-                        )
-                    })}
+                            )
+                        })}
+                    </TableBody>
                 </Table>
             )}
+            <Collapse isOpen={isOpen} ></Collapse>
         </div>
     )
 }
