@@ -41,13 +41,14 @@ const Clusters = () => {
         clusters.map(cluster => {
             const attributesObject = {
                 id: '',
-                name: '',
-                description: '',
-                type: '',
-                datetime: '',
+                name: '-',
+                description: '-',
+                type: '-',
+                datetime: '-',
             }
 
             cluster.attributes.map(attr => {
+                console.log(attr)
                 const { value, displayName } = attr
                 if (displayName === CLUSTER_ID) attributesObject.id = value
                 if (displayName === CLUSTER_NAME) attributesObject.name = value
