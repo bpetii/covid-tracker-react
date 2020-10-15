@@ -1,4 +1,5 @@
 import React from 'react'
+import { useDataQuery } from '@dhis2/app-runtime'
 import {
     Table,
     TableHead,
@@ -9,7 +10,21 @@ import {
     TableCell,
 } from '@dhis2/ui-core'
 
+const queryClusters = {
+    trackedEntityInstances: {
+        resource: 'trackedEntityInstances',
+        params: {
+            paging: 'false',
+            ou: 'uoPrVFsvJiY',
+            program: 'plTOwEXJrb6',
+            fields: ['orgUnit', 'lastUpdated', 'created'],
+        },
+    },
+}
+
 const Clusters = () => {
+    const { data } = useDataQuery(queryClusters)
+    
     return (
         <div>
             <Table dataTest="dhis2-uicore-table">
