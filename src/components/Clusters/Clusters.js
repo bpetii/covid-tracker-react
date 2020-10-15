@@ -12,6 +12,12 @@ import {
 
 import Collapse from '../Collapse/Collapse'
 
+const CLUSTER_ID = 'Unique ID'
+const CLUSTER_NAME = 'Cluster name'
+const CLUSTER_DESCRIPTION = 'Cluster description'
+const CLUSTER_TYPE = 'Cluster type'
+const CLUSTER_DATE = 'Cluster - Start date and time of cluster'
+
 const queryClusters = {
     trackedEntityInstances: {
         resource: 'trackedEntityInstances',
@@ -25,13 +31,36 @@ const queryClusters = {
 }
 
 const Clusters = () => {
+    const attributesInfo = []
     const [isOpen, setOpen] = useState(false)
 
     let entityInstances = null
     const { loading, error, data } = useDataQuery(queryClusters)
 
     if (data) {
-        entityInstances = data.trackedEntityInstances.trackedEntityInstances
+        entityInstances = data
+        const clusters = data.trackedEntityInstances.trackedEntityInstances
+        clusters.map(cluster => {
+            const attributesObject = {
+                id: '',
+                name: '',
+                description: '',
+                type: '',
+                datetime: '',
+            }
+
+            cluster.attributes.map(attr => {
+                const { value, displayName } = attr
+                if (displayName === CLUSTER_ID) attributesObject.id = value
+                if (displayName === CLUSTER_NAME) attributesObject.name = value
+                if (displayName === CLUSTER_DESCRIPTION)
+                    attributesObject.description = value
+                if (displayName === CLUSTER_TYPE) attributesObject.type = value
+                if (displayName === CLUSTER_DATE)
+                    attributesObject.datetime = value
+            })
+            attributesInfo.push(attributesObject)
+        })
     }
 
     const toggleCollapseHandler = e => {
@@ -61,83 +90,23 @@ const Clusters = () => {
                         </TableRowHead>
                     </TableHead>
                     <TableBody dataTest="dhis2-uicore-tablebody">
-                        {entityInstances.map(tei => {
+                        {attributesInfo.map(attr => {
                             return (
                                 <TableRow
-                                    key={
-                                        tei.attributes[
-                                            tei.attributes.findIndex(attr => {
-                                                return (
-                                                    attr.displayName ===
-                                                    'Unique ID'
-                                                )
-                                            })
-                                        ].value
-                                    }
+                                    key={attr.id}
                                     dataTest="dhis2-uicore-tablerow"
                                 >
                                     <TableCell dataTest="dhis2-uicore-tablecell">
-                                        {
-                                            tei.attributes[
-                                                tei.attributes.findIndex(
-                                                    attr => {
-                                                        return (
-                                                            attr.displayName ===
-                                                            'Cluster name'
-                                                        )
-                                                    }
-                                                )
-                                            ].value
-                                        }
+                                        {attr.name}
                                     </TableCell>
                                     <TableCell dataTest="dhis2-uicore-tablecell">
-                                        {
-                                            tei.attributes[
-                                                tei.attributes.findIndex(
-                                                    attr => {
-                                                        return (
-                                                            attr.displayName ===
-                                                            'Cluster description'
-                                                        )
-                                                    }
-                                                )
-                                            ].value
-                                        }
+                                        {attr.description}
                                     </TableCell>
                                     <TableCell dataTest="dhis2-uicore-tablecell">
-                                        {tei.attributes[
-                                            tei.attributes.findIndex(attr => {
-                                                return (
-                                                    attr.displayName ===
-                                                    'Cluster type'
-                                                )
-                                            })
-                                        ]
-                                            ? tei.attributes[
-                                                  tei.attributes.findIndex(
-                                                      attr => {
-                                                          return (
-                                                              attr.displayName ===
-                                                              'Cluster type'
-                                                          )
-                                                      }
-                                                  )
-                                              ].value
-                                            : '-'}
+                                        {attr.type}
                                     </TableCell>
                                     <TableCell dataTest="dhis2-uicore-tablecell">
-                                        {
-                                            tei.attributes[
-                                                tei.attributes.findIndex(
-                                                    attr => {
-                                                        return (
-                                                            attr.displayName ===
-                                                            'Cluster - Start date and time of cluster'
-                                                        )
-                                                    }
-                                                )
-                                            ].value
-                                        }
+                                        {attr.datetime}
                                     </TableCell>
                                     <TableCell>
                                         <button
@@ -154,7 +123,7 @@ const Clusters = () => {
                     </TableBody>
                 </Table>
             )}
-            <Collapse isOpen={isOpen} ></Collapse>
+            <Collapse isOpen={isOpen}></Collapse>
         </div>
     )
 }
