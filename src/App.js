@@ -23,11 +23,13 @@ const MyApp = () => {
                         label={i18n.t('Cluster')}
                         dataTest="menu-programs"
                         onClick={setClusterHandler}
+                        active={cluster}
                     ></MenuItem>
                     <MenuItem
                         label={i18n.t('Map')}
                         dataTest="menu-dataSets"
                         onClick={setMapHandler}
+                        active={!cluster}
                     ></MenuItem>
                 </Menu>
             </nav>
