@@ -34,11 +34,9 @@ const Clusters = () => {
     const attributesInfo = []
     const [isOpen, setOpen] = useState(false)
 
-    let entityInstances = null
     const { loading, error, data } = useDataQuery(queryClusters)
 
     if (data) {
-        entityInstances = data
         const clusters = data.trackedEntityInstances.trackedEntityInstances
         clusters.map(cluster => {
             const attributesObject = {
