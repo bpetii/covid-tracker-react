@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useDataQuery } from '@dhis2/app-runtime'
 import Spinner from '../Spinner/Spinner'
+import Modal from '../Modal/Modal'
 import {
     Table,
     TableHead,
@@ -12,6 +13,7 @@ import {
 } from '@dhis2/ui-core'
 
 import Collapse from '../Collapse/Collapse'
+import Backdrop from '../Backdrop/Backdrop'
 
 const CLUSTER_ID = 'Unique ID'
 const CLUSTER_NAME = 'Cluster name'
@@ -35,7 +37,7 @@ const queryClusters = {
 
 const Clusters = () => {
     const attributesInfo = []
-    const [isOpen, setOpen] = useState(true)
+    const [isOpen, setOpen] = useState(false)
 
     const { loading, error, data } = useDataQuery(queryClusters)
 
@@ -76,6 +78,9 @@ const Clusters = () => {
 
     return (
         <div>
+            <Modal show={isOpen} modalClosed={toggleCollapseHandler}>
+                This is a test
+            </Modal>
             {loading && <Spinner />}
             {error && <span>{`ERROR: ${error.message}`}</span>}
             {data && (
@@ -133,7 +138,7 @@ const Clusters = () => {
                                             </button>
                                         </TableCell>
                                     </TableRow>
-                                   {/*  <TableRow>
+                                    {/*  <TableRow>
                                         <TableCell
                                             colSpan="5"
                                             dataTest="dhis2-uicore-tablecell"
