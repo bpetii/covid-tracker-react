@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useDataQuery } from '@dhis2/app-runtime'
+import Spinner from '../Spinner/Spinner'
 import {
     Table,
     TableHead,
@@ -16,7 +17,9 @@ const CLUSTER_ID = 'Unique ID'
 const CLUSTER_NAME = 'Cluster name'
 const CLUSTER_DESCRIPTION = 'Cluster description'
 const CLUSTER_TYPE = 'Cluster type'
-const CLUSTER_DATE = 'Cluster - Start date and time of cluster'
+const CLUSTER_START_DATE = 'Cluster - Start date and time of cluster'
+const CLUSTER_END_DATE = 'Cluster - End date and time of cluster'
+const CLUSTER_LOCATION = 'Cluster location (geographical)'
 
 const queryClusters = {
     trackedEntityInstances: {
@@ -32,7 +35,7 @@ const queryClusters = {
 
 const Clusters = () => {
     const attributesInfo = []
-    const [isOpen, setOpen] = useState(false)
+    const [isOpen, setOpen] = useState(true)
 
     const { loading, error, data } = useDataQuery(queryClusters)
 
@@ -44,19 +47,24 @@ const Clusters = () => {
                 name: '-',
                 description: '-',
                 type: '-',
-                datetime: '-',
+                startDate: '-',
+                endDate: '-',
+                location: null,
             }
 
             cluster.attributes.map(attr => {
-                console.log(attr)
                 const { value, displayName } = attr
                 if (displayName === CLUSTER_ID) attributesObject.id = value
                 if (displayName === CLUSTER_NAME) attributesObject.name = value
                 if (displayName === CLUSTER_DESCRIPTION)
                     attributesObject.description = value
                 if (displayName === CLUSTER_TYPE) attributesObject.type = value
-                if (displayName === CLUSTER_DATE)
-                    attributesObject.datetime = value
+                if (displayName === CLUSTER_START_DATE)
+                    attributesObject.startDate = value
+                if (displayName === CLUSTER_END_DATE)
+                    attributesObject.endDate = value
+                if (displayName === CLUSTER_LOCATION)
+                    attributesObject.location = value
             })
             attributesInfo.push(attributesObject)
         })
@@ -68,7 +76,7 @@ const Clusters = () => {
 
     return (
         <div>
-            {loading && <span>...</span>}
+            {loading && <Spinner />}
             {error && <span>{`ERROR: ${error.message}`}</span>}
             {data && (
                 <Table dataTest="dhis2-uicore-table">
@@ -86,43 +94,61 @@ const Clusters = () => {
                             <TableCellHead dataTest="dhis2-uicore-tablecellhead">
                                 Start
                             </TableCellHead>
+                            <TableCellHead dataTest="dhis2-uicore-tablecellhead">
+                                End
+                            </TableCellHead>
                         </TableRowHead>
                     </TableHead>
                     <TableBody dataTest="dhis2-uicore-tablebody">
                         {attributesInfo.map(attr => {
                             return (
-                                <TableRow
-                                    key={attr.id}
-                                    dataTest="dhis2-uicore-tablerow"
-                                >
-                                    <TableCell dataTest="dhis2-uicore-tablecell">
-                                        {attr.name}
-                                    </TableCell>
-                                    <TableCell dataTest="dhis2-uicore-tablecell">
-                                        {attr.description}
-                                    </TableCell>
-                                    <TableCell dataTest="dhis2-uicore-tablecell">
-                                        {attr.type}
-                                    </TableCell>
-                                    <TableCell dataTest="dhis2-uicore-tablecell">
-                                        {attr.datetime}
-                                    </TableCell>
-                                    <TableCell>
-                                        <button
-                                            onClick={e =>
-                                                toggleCollapseHandler(e)
-                                            }
+                                <>
+                                    <TableRow
+                                        suppressZebraStriping
+                                        key={attr.id}
+                                        dataTest="dhis2-uicore-tablerow"
+                                    >
+                                        <TableCell dataTest="dhis2-uicore-tablecell">
+                                            {attr.name}
+                                        </TableCell>
+                                        <TableCell dataTest="dhis2-uicore-tablecell">
+                                            {attr.description}
+                                        </TableCell>
+                                        <TableCell dataTest="dhis2-uicore-tablecell">
+                                            {attr.type}
+                                        </TableCell>
+                                        <TableCell dataTest="dhis2-uicore-tablecell">
+                                            {attr.startDate}
+                                        </TableCell>
+                                        <TableCell dataTest="dhis2-uicore-tablecell">
+                                            {attr.endDate}
+                                        </TableCell>
+                                        <TableCell>
+                                            <button
+                                                onClick={e =>
+                                                    toggleCollapseHandler(e)
+                                                }
+                                            >
+                                                Toggle
+                                            </button>
+                                        </TableCell>
+                                    </TableRow>
+                                   {/*  <TableRow>
+                                        <TableCell
+                                            colSpan="5"
+                                            dataTest="dhis2-uicore-tablecell"
                                         >
-                                            Toggle
-                                        </button>
-                                    </TableCell>
-                                </TableRow>
+                                            <Collapse
+                                                isOpen={isOpen}
+                                            ></Collapse>
+                                        </TableCell>
+                                    </TableRow> */}
+                                </>
                             )
                         })}
                     </TableBody>
                 </Table>
             )}
-            <Collapse isOpen={isOpen}></Collapse>
         </div>
     )
 }
