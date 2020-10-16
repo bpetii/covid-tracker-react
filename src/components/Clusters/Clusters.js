@@ -10,6 +10,7 @@ import {
     TableBody,
     TableRow,
     TableCell,
+    Button,
 } from '@dhis2/ui-core'
 
 import Accordion from '../Accordion/Accordion'
@@ -72,8 +73,14 @@ const Clusters = () => {
         })
     }
 
-    const toggleCollapseHandler = e => {
-        setOpen(prevState => !prevState)
+    const toggleCollapseHandler = (event, id) => {
+        console.log(event.currentTarget.parentNode.parentNode)
+        const rowId = event.currentTarget.parentNode.parentNode.getAttribute(
+            'data-test'
+        )
+        if (id === rowId) {
+            setOpen(prevState => !prevState)
+        }
     }
 
     return (
@@ -107,9 +114,10 @@ const Clusters = () => {
                             return (
                                 <>
                                     <TableRow
-                                        suppressZebraStriping
                                         key={attr.id}
-                                        dataTest="dhis2-uicore-tablerow"
+                                        data-key={attr.id}
+                                        dataTest={attr.id}
+                                        toggled
                                     >
                                         <TableCell dataTest="dhis2-uicore-tablecell">
                                             {attr.name}
@@ -128,8 +136,11 @@ const Clusters = () => {
                                         </TableCell>
                                         <TableCell>
                                             <button
-                                                onClick={e =>
-                                                    toggleCollapseHandler(e)
+                                                onClick={event =>
+                                                    toggleCollapseHandler(
+                                                        event,
+                                                        attr.id
+                                                    )
                                                 }
                                             >
                                                 Toggle
