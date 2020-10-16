@@ -12,7 +12,7 @@ import {
     Button,
 } from '@dhis2/ui-core'
 
-const ClusterInfo = () => {
+const ClusterInfo = props => {
     return (
         <div>
             <div className={styles.container}>
@@ -31,17 +31,21 @@ const ClusterInfo = () => {
                         </TableRowHead>
                     </TableHead>
                     <TableBody dataTest="dhis2-uicore-tablebody">
-                        <TableRow dataTest="dhis2-uicore-tablerow">
-                            <TableCell dataTest="dhis2-uicore-tablecell">
-                                firstname
-                            </TableCell>
-                            <TableCell dataTest="dhis2-uicore-tablecell">
-                                surname
-                            </TableCell>
-                            <TableCell dataTest="dhis2-uicore-tablecell">
-                                age
-                            </TableCell>
-                        </TableRow>
+                        {props.cases.map(person => {
+                            return (
+                                <TableRow dataTest="dhis2-uicore-tablerow">
+                                    <TableCell dataTest="dhis2-uicore-tablecell">
+                                        {person.firstName}
+                                    </TableCell>
+                                    <TableCell dataTest="dhis2-uicore-tablecell">
+                                        {person.surName}
+                                    </TableCell>
+                                    <TableCell dataTest="dhis2-uicore-tablecell">
+                                        {person.age}
+                                    </TableCell>
+                                </TableRow>
+                            )
+                        })}
                     </TableBody>
                 </Table>
                 <section>
@@ -62,9 +66,9 @@ const ClusterInfo = () => {
                 <h1>Description: </h1>
                 <hr></hr>
                 <label>Cluster Type:</label>
-                <p>Put the cluster type here</p>
+                <p>{props.clusterInfo.type}</p>
                 <label>Cluster Description:</label>
-                <p>Put the description here</p>
+                <p>{props.clusterInfo.description}</p>
             </section>
         </div>
     )

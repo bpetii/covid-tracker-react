@@ -1,21 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDataQuery } from '@dhis2/app-runtime'
 import Spinner from '../UI/Spinner/Spinner'
-import Modal from '../UI/Modal/Modal'
+
 import {
     Table,
     TableHead,
     TableRowHead,
     TableCellHead,
     TableBody,
-    TableRow,
-    TableCell,
-    Button,
 } from '@dhis2/ui-core'
 
 import Accordion from '../Accordion/Accordion'
 
-const CLUSTER_ID = 'Unique ID'
 const CLUSTER_NAME = 'Cluster name'
 const CLUSTER_DESCRIPTION = 'Cluster description'
 const CLUSTER_TYPE = 'Cluster type'
@@ -30,14 +26,20 @@ const queryClusters = {
             paging: 'false',
             ou: 'uoPrVFsvJiY',
             program: 'plTOwEXJrb6',
-            fields: ['orgUnit', 'lastUpdated', 'created', 'attributes'],
+            fields: [
+                'orgUnit',
+                'trackedEntityInstance',
+                'lastUpdated',
+                'created',
+                'attributes',
+            ],
         },
     },
 }
 
 const Clusters = () => {
     const attributesInfo = []
-    const [isOpen, setOpen] = useState(false)
+    const cases = []
 
     const { loading, error, data } = useDataQuery(queryClusters)
 
@@ -45,7 +47,7 @@ const Clusters = () => {
         const clusters = data.trackedEntityInstances.trackedEntityInstances
         clusters.map(cluster => {
             const attributesObject = {
-                id: '',
+                tei: '',
                 name: '-',
                 description: '-',
                 type: '-',
@@ -53,10 +55,10 @@ const Clusters = () => {
                 endDate: '-',
                 location: null,
             }
+            attributesObject.tei = cluster.trackedEntityInstance
 
             cluster.attributes.map(attr => {
                 const { value, displayName } = attr
-                if (displayName === CLUSTER_ID) attributesObject.id = value
                 if (displayName === CLUSTER_NAME) attributesObject.name = value
                 if (displayName === CLUSTER_DESCRIPTION)
                     attributesObject.description = value
@@ -72,18 +74,8 @@ const Clusters = () => {
         })
     }
 
-    const toggleCollapseHandler = (event, id) => {
-        const rowId = event.currentTarget.parentNode.parentNode.getAttribute(
-            'data-test'
-        )
-        if (id === rowId) {
-            setOpen(prevState => !prevState)
-        }
-    }
-
     return (
         <div>
-            <Modal>This is a test</Modal>
             {loading && <Spinner />}
             {error && <Modal>{error.message}</Modal>}
             {data && (
@@ -110,43 +102,7 @@ const Clusters = () => {
                     <TableBody dataTest="dhis2-uicore-tablebody">
                         {attributesInfo.map(attr => {
                             return (
-                                <>
-                                    <TableRow
-                                        key={attr.id}
-                                        data-key={attr.id}
-                                        dataTest={attr.id}
-                                        toggled
-                                    >
-                                        <TableCell dataTest="dhis2-uicore-tablecell">
-                                            {attr.name}
-                                        </TableCell>
-                                        <TableCell dataTest="dhis2-uicore-tablecell">
-                                            {attr.description}
-                                        </TableCell>
-                                        <TableCell dataTest="dhis2-uicore-tablecell">
-                                            {attr.type}
-                                        </TableCell>
-                                        <TableCell dataTest="dhis2-uicore-tablecell">
-                                            {attr.startDate}
-                                        </TableCell>
-                                        <TableCell dataTest="dhis2-uicore-tablecell">
-                                            {attr.endDate}
-                                        </TableCell>
-                                        <TableCell>
-                                            <Button
-                                                onClick={event =>
-                                                    toggleCollapseHandler(
-                                                        event,
-                                                        attr.id
-                                                    )
-                                                }
-                                            >
-                                                Toggle
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                    {isOpen ? <Accordion /> : null}
-                                </>
+                                <Accordion key={attr.tei} attributes={attr} />
                             )
                         })}
                     </TableBody>
