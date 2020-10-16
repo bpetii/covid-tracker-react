@@ -12,10 +12,8 @@ import {
     TableCell,
     Button,
 } from '@dhis2/ui-core'
-import ClusterInfo from '../ClusterInfo/ClusterInfo'
 
 import Accordion from '../Accordion/Accordion'
-import accordion from '../Accordion/Accordion'
 
 const CLUSTER_ID = 'Unique ID'
 const CLUSTER_NAME = 'Cluster name'
@@ -75,7 +73,6 @@ const Clusters = () => {
     }
 
     const toggleCollapseHandler = (event, id) => {
-        console.log(event.currentTarget.parentNode.parentNode)
         const rowId = event.currentTarget.parentNode.parentNode.getAttribute(
             'data-test'
         )
@@ -86,9 +83,7 @@ const Clusters = () => {
 
     return (
         <div>
-            <Modal show={isOpen} modalClosed={toggleCollapseHandler}>
-                <ClusterInfo />
-            </Modal>
+            <Modal>This is a test</Modal>
             {loading && <Spinner />}
             {error && <Modal>{error.message}</Modal>}
             {data && (
@@ -138,7 +133,7 @@ const Clusters = () => {
                                             {attr.endDate}
                                         </TableCell>
                                         <TableCell>
-                                            <button
+                                            <Button
                                                 onClick={event =>
                                                     toggleCollapseHandler(
                                                         event,
@@ -147,7 +142,7 @@ const Clusters = () => {
                                                 }
                                             >
                                                 Toggle
-                                            </button>
+                                            </Button>
                                         </TableCell>
                                     </TableRow>
                                     {isOpen ? <Accordion /> : null}
