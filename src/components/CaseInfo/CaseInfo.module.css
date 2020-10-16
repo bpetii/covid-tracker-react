@@ -1,0 +1,25 @@
+.container2 {
+    width: 450px;
+    height: 100%;
+    font-size: 1rem;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: minmax(200px, auto) 1fr;
+    grid-template-areas: 'sidebar main';
+    padding: 10px;
+    border: 1px solid grey;
+    background-color: rgba(128, 128, 128, 0.171);
+    margin: 10px 10px 10px 20px;
+}
+
+.container2 p {
+    margin: 0 0 16px 0;
+    padding: 16px;
+    background-color: white;
+}
+.container2 label {
+    color: #4287bd;
+}
+.container2 h1 {
+    color: rgb(44, 102, 147);
+}

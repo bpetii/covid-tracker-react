@@ -1,6 +1,6 @@
 import React from 'react'
 
 const Map = () => {
-    return <div>map component</div>
+    return <div>this is map</div>
 }
 export default Map

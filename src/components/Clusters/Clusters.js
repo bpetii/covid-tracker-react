@@ -11,6 +11,7 @@ import {
     TableRow,
     TableCell,
 } from '@dhis2/ui-core'
+import ClusterInfo from '../ClusterInfo/ClusterInfo'
 
 import Accordion from '../Accordion/Accordion'
 import accordion from '../Accordion/Accordion'
@@ -78,7 +79,9 @@ const Clusters = () => {
 
     return (
         <div>
-            <Modal>This is a test</Modal>
+            <Modal show={isOpen} modalClosed={toggleCollapseHandler}>
+                <ClusterInfo />
+            </Modal>
             {loading && <Spinner />}
             {error && <Modal>{error.message}</Modal>}
             {data && (
