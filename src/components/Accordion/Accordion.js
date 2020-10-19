@@ -87,7 +87,6 @@ const accordion = props => {
     }
 
     const openCasesHandler = person => {
-        console.log(person)
         setSelectedPerson(person)
         setCasesInfo(prevState => !prevState)
     }
@@ -104,14 +103,8 @@ const accordion = props => {
                 <CasesInfo case={selectedPerson} />
             </Modal>
 
-            <TableRow
-            /*  className={
-                    isToggled
-                        ? (styles.panel.style.maxHeight = null)
-                        : (styles.panel.style.maxHeight = styles.panel.scrollHeight + 'px')
-                } */
-            >
-                <TableCell colSpan="5" dataTest="dhis2-uicore-tablecell">
+            <TableRow>
+                <TableCell colSpan="6" dataTest="dhis2-uicore-tablecell">
                     <div>
                         <h2>Details:</h2>
                         <Table dataTest="dhis2-uicore-table">
@@ -126,6 +119,7 @@ const accordion = props => {
                                     <TableCellHead dataTest="dhis2-uicore-tablecellhead">
                                         Lastname
                                     </TableCellHead>
+                                    <TableCellHead dataTest="dhis2-uicore-tablecellhead"></TableCellHead>
                                 </TableRowHead>
                             </TableHead>
                             <TableBody dataTest="dhis2-uicore-tablebody">

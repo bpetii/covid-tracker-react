@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDataQuery } from '@dhis2/app-runtime'
 import Spinner from '../UI/Spinner/Spinner'
 
@@ -97,6 +97,7 @@ const Clusters = () => {
                             <TableCellHead dataTest="dhis2-uicore-tablecellhead">
                                 End
                             </TableCellHead>
+                            <TableCellHead dataTest="dhis2-uicore-tablecellhead"></TableCellHead>
                         </TableRowHead>
                     </TableHead>
                     <TableBody dataTest="dhis2-uicore-tablebody">
