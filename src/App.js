@@ -6,10 +6,12 @@ import Map from './components/Map'
 import { Clusters } from './components/Clusters'
 
 const MyApp = () => {
-    const [cluster, setPage] = useState()
+    const [cluster, setPage] = useState(true)
+
     useEffect(() => {
         setPage(true)
     }, [])
+
     const setClusterHandler = () => {
         setPage(true)
     }
@@ -39,7 +41,16 @@ const MyApp = () => {
 
             <main className={styles.main}>
                 <div>{cluster && <Clusters />}</div>
-                <div>{!cluster && <Map />}</div>
+                <div>
+                    {!cluster && (
+                        <Map
+                            location={{
+                                lat: -1.2884,
+                                lng: 36.8233,
+                            }}
+                        />
+                    )}
+                </div>
             </main>
         </div>
     )

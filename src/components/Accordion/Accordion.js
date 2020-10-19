@@ -25,20 +25,20 @@ const CASE_COUNTRY = 'Country of birth'
 const CASE_NUMBERID = 'National ID number'
 const CASE_BIRTHDATE = 'Date of birth'
 
+const queryRelationships = {
+    relationship: {
+        resource: 'relationships',
+        params: ({ id }) => ({
+            tei: id,
+        }),
+    },
+}
+
 const accordion = props => {
     const [isToggled, setToggle] = useState(false)
     const [isClusterinfoOpen, setClusterInfo] = useState(false)
     const [isCasesInfoOpen, setCasesInfo] = useState(false)
     const [selectedPerson, setSelectedPerson] = useState(null)
-
-    const queryRelationships = {
-        relationship: {
-            resource: 'relationships',
-            params: {
-                tei: props.attributes.tei,
-            },
-        },
-    }
 
     const { loading, error, data } = useDataQuery(queryRelationships, {
         variables: {

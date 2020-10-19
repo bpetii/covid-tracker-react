@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from './ClusterInfo.module.css'
+import MapComponent from '../Map' 
 
 import {
     Table,
