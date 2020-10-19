@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import i18n from '@dhis2/d2-i18n'
 import { Menu, MenuItem, MenuSectionHeader } from '@dhis2/ui'
 import styles from './App.module.css'
@@ -6,7 +6,10 @@ import Map from './components/Map'
 import { Clusters } from './components/Clusters'
 
 const MyApp = () => {
-    const [cluster, setPage] = useState(true)
+    const [cluster, setPage] = useState()
+    useEffect(() => {
+        setPage(true)
+    }, [])
     const setClusterHandler = () => {
         setPage(true)
     }
