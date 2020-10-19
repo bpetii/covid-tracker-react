@@ -13,6 +13,8 @@ import {
 } from '@dhis2/ui-core'
 
 const ClusterInfo = props => {
+    console.log('clusterInfo component')
+
     return (
         <div>
             <div className={styles.container}>

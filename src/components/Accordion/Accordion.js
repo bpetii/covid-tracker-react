@@ -93,22 +93,17 @@ const accordion = props => {
     }
     const toggledRow = (
         <>
-            {isClusterinfoOpen && (
-                <Modal
-                    show={isClusterinfoOpen}
-                    modalClosed={openClusterHandler}
-                >
-                    <ClusterInfo
-                        cases={casesArray}
-                        clusterInfo={props.attributes}
-                    />
-                </Modal>
-            )}
-            {isCasesInfoOpen &&  (
-                <Modal show={isCasesInfoOpen} modalClosed={openCasesHandler}>
-                    <CasesInfo  case={selectedPerson} />
-                </Modal>
-            )}
+            <Modal show={isClusterinfoOpen} modalClosed={openClusterHandler}>
+                <ClusterInfo
+                    cases={casesArray}
+                    clusterInfo={props.attributes}
+                />
+            </Modal>
+
+            <Modal show={isCasesInfoOpen} modalClosed={openCasesHandler}>
+                <CasesInfo case={selectedPerson} />
+            </Modal>
+
             <TableRow
             /*  className={
                     isToggled
@@ -174,6 +169,7 @@ const accordion = props => {
 
     return (
         <>
+            {console.log('accordion component')}
             {error && <Modal>{error.message}</Modal>}
             {data && (
                 <TableRow>

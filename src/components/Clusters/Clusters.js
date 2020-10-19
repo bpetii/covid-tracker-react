@@ -38,15 +38,14 @@ const queryClusters = {
 }
 
 const Clusters = () => {
-    const attributesInfo = []
-    const cases = []
+    const clusters = []
 
     const { loading, error, data } = useDataQuery(queryClusters)
 
     if (data) {
-        const clusters = data.trackedEntityInstances.trackedEntityInstances
-        clusters.map(cluster => {
-            const attributesObject = {
+        const clustersArray = data.trackedEntityInstances.trackedEntityInstances
+        clustersArray.map(cluster => {
+            const clusterObject = {
                 tei: '',
                 name: '-',
                 description: '-',
@@ -55,27 +54,28 @@ const Clusters = () => {
                 endDate: '-',
                 location: null,
             }
-            attributesObject.tei = cluster.trackedEntityInstance
+            clusterObject.tei = cluster.trackedEntityInstance
 
             cluster.attributes.map(attr => {
                 const { value, displayName } = attr
-                if (displayName === CLUSTER_NAME) attributesObject.name = value
+                if (displayName === CLUSTER_NAME) clusterObject.name = value
                 if (displayName === CLUSTER_DESCRIPTION)
-                    attributesObject.description = value
-                if (displayName === CLUSTER_TYPE) attributesObject.type = value
+                    clusterObject.description = value
+                if (displayName === CLUSTER_TYPE) clusterObject.type = value
                 if (displayName === CLUSTER_START_DATE)
-                    attributesObject.startDate = value
+                    clusterObject.startDate = value
                 if (displayName === CLUSTER_END_DATE)
-                    attributesObject.endDate = value
+                    clusterObject.endDate = value
                 if (displayName === CLUSTER_LOCATION)
-                    attributesObject.location = value
+                    clusterObject.location = value
             })
-            attributesInfo.push(attributesObject)
+            clusters.push(clusterObject)
         })
     }
 
     return (
         <div>
+            {console.log('clutsers component')}
             {loading && <Spinner />}
             {error && <Modal>{error.message}</Modal>}
             {data && (
@@ -100,7 +100,7 @@ const Clusters = () => {
                         </TableRowHead>
                     </TableHead>
                     <TableBody dataTest="dhis2-uicore-tablebody">
-                        {attributesInfo.map(attr => {
+                        {clusters.map(attr => {
                             return (
                                 <Accordion key={attr.tei} attributes={attr} />
                             )
