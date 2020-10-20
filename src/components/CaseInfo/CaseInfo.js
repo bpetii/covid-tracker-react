@@ -10,27 +10,27 @@ const CaseInfo = props => {
                     dataTest="dhis2-uicore-centeredcontent"
                     position="top"
                 >
-                    <h1>
+                    <h1 className={styles.fullName}>
                         {props.case.firstName} {props.case.sureName}
                     </h1>
                 </CenteredContent>
                 <section className={styles.container}>
                     {console.log('casesInfo component')}
-                    Stashed changes
+
                     <label>First Name:</label>
-                    <input onChange={() => {}} value={props.case.firstName} />
+                    <p>{props.case.firstName}</p>
                     <label>Last Name:</label>
-                    <input onChange={() => {}} value={props.case.sureName} />
+                    <p>{props.case.sureName}</p>
                     <label>Date of Birth:</label>
-                    <input onChange={() => {}} value={props.case.birthDate} />
+                    <p>{props.case.birthDate}</p>
                     <label>Age:</label>
-                    <input onChange={() => {}} value={props.case.age} />
+                    <p>{props.case.age} </p>
                     <label>Sex:</label>
-                    <input onChange={() => {}} value={props.case.sex} />
+                    <p>{props.case.sex}</p>
                     <label>National ID number:</label>
-                    <input onChange={() => {}} value={props.case.numberId} />
+                    <p>{props.case.numberId}</p>
                     <label>Country of birth:</label>
-                    <input onChange={() => {}} value={props.case.country} />
+                    <p>{props.case.country}</p>
                 </section>
             </>
         )

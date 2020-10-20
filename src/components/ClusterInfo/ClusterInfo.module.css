@@ -16,7 +16,7 @@
     margin-right: 0px;
 }
 .table {
-    margin: 10px 0 10px 0;
+    margin: 10px 0px;
 }
 .openMappButton {
     margin: 10px 23px;
@@ -39,14 +39,14 @@
 
 .secondContainer label {
     color: #4287bd;
+    padding: 16px;
 }
 .secondContainer h1 {
     color: rgb(44, 102, 147);
 }
-input {
-    background-color: #eee;
-    margin-bottom: 10px;
-    margin-top: 0px;
-    padding-bottom: 5px;
-    padding-top: 0px;
+.secondContainer p {
+    margin: 0 0 16px 0;
+    padding: 16px;
+    background-color: white;
+    border: 1px solid rgb(232, 237, 242);
 }
