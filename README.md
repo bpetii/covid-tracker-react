@@ -11,6 +11,64 @@ Add a cypress.env.json
 | dhis2_password        | password                |
 | dhis2_datatest_prefix | dhis2-clustermanagement |
 
+## DHIS Portal
+
+[DHIS2 portal npm](https://www.npmjs.com/package/dhis-portal)
+
+```code
+$ dhis-portal --server=course --instance=course --target='https://course.dhis2.org' --auth='username:password'
+```
+
+## Git workflow
+
+When commiting to git husky will check that all files are formatted correctly and that the commit message is on the right format.
+
+[Husky commit message validation](https://github.com/conventional-changelog/commitlint/#what-is-commitlint)
+
+Example:
+
+```code
+$ git commit -m"fix(server): send cors headers"
+```
+
+## Pull request
+
+When starting a new tast you should make a new branch
+
+```code
+$ git checkout -b feat/new-feature
+```
+
+When the feature is done be sure that the branch is up to date with master
+
+```code
+$ git checkout master && git pull
+$ git checkout feat/new-feature
+$ git merge master
+```
+
+Resolve potential merge conflicts then create the pull request
+
+```code
+$ git push origin feat/new-feature
+```
+
+Go to github and publish the pull request.
+
+Make sure to checkout master and delete branch when finished
+
+```code
+$ git checkout master && git pull
+```
+
+## Code formatting
+
+Check that yarn format runs successfully, this command will format the code and check for linting errors.
+
+```code
+$ yarn format
+```
+
 ## DHIS2 cli style
 
 This project uses the @dhis2/cli-app-scripts for linting, prettier and husky
