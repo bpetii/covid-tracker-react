@@ -68,13 +68,16 @@ const ClusterInfo = props => {
                     </Button>
                 </section>
             </div>
-            <section className={styles.container2}>
+            <section className={styles.secondContainer}>
                 <h1>Description: </h1>
                 <hr></hr>
                 <label>Cluster Type:</label>
-                <p>{props.clusterInfo.type}</p>
+                <input value={props.clusterInfo.type} onChange={() => {}} />
                 <label>Cluster Description:</label>
-                <p>{props.clusterInfo.description}</p>
+                <input
+                    value={props.clusterInfo.description}
+                    onChange={() => {}}
+                />
             </section>
         </div>
     )

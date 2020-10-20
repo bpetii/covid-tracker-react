@@ -4,44 +4,49 @@
     font-size: 1rem;
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns: minmax(200px, auto) 1fr;
+    grid-template-columns: minmax(50%, auto) 1fr;
     grid-template-areas: 'sidebar main';
-    padding: 10px;
 }
 
 .box {
     height: 200px;
-    width: 200px;
+    width: 90%;
     border: 1px solid grey;
-    margin: 10px 10px 10px 20px;
+    margin-left: 23px;
+    margin-right: 0px;
 }
 .table {
-    margin: 10px;
+    margin: 10px 0 10px 0;
 }
 .openMappButton {
-    margin: 10px 10px 10px 20px;
-    width: 200px;
-}
-.box2 {
-    height: 200px;
-    width: 400px;
-    border: 1px solid grey;
-    margin: 10px 10px 10px 20px;
+    margin: 10px 23px;
+    width: 90%;
 }
 
-.container2 {
-    width: 450px;
+.secondContainer {
+    width: 100%;
     height: 100%;
     font-size: 1rem;
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: minmax(200px, auto) 1fr;
     grid-template-areas: 'sidebar main';
-    padding: 10px;
     border: 1px solid grey;
-    margin: 10px 10px 10px 20px;
+    margin: 10px 0px;
+    padding: 5px;
+    background-color: #f2f9ff;
 }
 
-.container2 p {
-    margin: 0 0 16px 0;
+.secondContainer label {
+    color: #4287bd;
+}
+.secondContainer h1 {
+    color: rgb(44, 102, 147);
+}
+input {
+    background-color: #eee;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    padding-bottom: 5px;
+    padding-top: 0px;
 }
