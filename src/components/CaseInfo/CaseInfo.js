@@ -3,9 +3,7 @@ import styles from './CaseInfo.module.css'
 
 const CaseInfo = props => {
     return (
-        
         props.case && (
-            
             <section className={styles.container2}>
                 {console.log('casesInfo component')}
                 <h1>{props.case.firstName}</h1>

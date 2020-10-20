@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './ClusterInfo.module.css'
-import MapComponent from '../Map' 
+import MapComponent from '../Map'
 
 import {
     Table,
@@ -36,7 +36,10 @@ const ClusterInfo = props => {
                     <TableBody dataTest="dhis2-uicore-tablebody">
                         {props.cases.map(person => {
                             return (
-                                <TableRow dataTest="dhis2-uicore-tablerow">
+                                <TableRow
+                                    key={person.surName}
+                                    dataTest="dhis2-uicore-tablerow"
+                                >
                                     <TableCell dataTest="dhis2-uicore-tablecell">
                                         {person.firstName}
                                     </TableCell>

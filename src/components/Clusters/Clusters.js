@@ -41,6 +41,7 @@ const Clusters = () => {
     const clusters = []
 
     const { loading, error, data } = useDataQuery(queryClusters)
+    console.log('data', data)
 
     if (data) {
         const clustersArray = data.trackedEntityInstances.trackedEntityInstances
@@ -77,7 +78,7 @@ const Clusters = () => {
         <div>
             {console.log('clutsers component')}
             {loading && <Spinner />}
-            {error && <Modal>{error.message}</Modal>}
+
             {data && (
                 <Table dataTest="dhis2-uicore-table">
                     <TableHead dataTest="dhis2-uicore-tablehead">
