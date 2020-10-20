@@ -1,22 +1,22 @@
 This project was bootstrapped with [DHIS2 Application Platform](https://github.com/dhis2/app-platform).
 
-## Cypress
-
-Add a cypress.env.json
-
-| key                   | value                   |
-| --------------------- | ----------------------- |
-| dhis2_base_url        | http://localhost:9999   |
-| dhis2_username        | username                |
-| dhis2_password        | password                |
-| dhis2_datatest_prefix | dhis2-clustermanagement |
+# Getting started
 
 ## DHIS Portal
+
+This project uses the DHIS portal for creating a portal from localhost:9999 to course.dhis2.org to prevent cors.
 
 [DHIS2 portal npm](https://www.npmjs.com/package/dhis-portal)
 
 ```code
 $ dhis-portal --server=course --instance=course --target='https://course.dhis2.org' --auth='username:password'
+```
+
+Install packages and start dev server
+
+```code
+$ yarn
+$ yarn start
 ```
 
 ## Git workflow
@@ -39,7 +39,9 @@ When starting a new tast you should make a new branch
 $ git checkout -b feat/new-feature
 ```
 
-When the feature is done be sure that the branch is up to date with master
+When the feature is done, all test passed and all code is formatted correctly, you can create a pull request.
+
+First be sure that the branch is up to date with master
 
 ```code
 $ git checkout master && git pull
@@ -47,7 +49,9 @@ $ git checkout feat/new-feature
 $ git merge master
 ```
 
-Resolve potential merge conflicts then create the pull request
+Resolve potential merge conflicts.
+
+Create the pull request
 
 ```code
 $ git push origin feat/new-feature
@@ -82,6 +86,17 @@ This project uses the @dhis2/cli-app-scripts for linting, prettier and husky
 [DHIS2 style CLI](https://cli-style.dhis2.nu/#/)
 
 [DHIS2 CLI](https://cli.dhis2.nu/#/)
+
+## Cypress
+
+Add a cypress.env.json
+
+| key                   | value                   |
+| --------------------- | ----------------------- |
+| dhis2_base_url        | http://localhost:9999   |
+| dhis2_username        | username                |
+| dhis2_password        | password                |
+| dhis2_datatest_prefix | dhis2-clustermanagement |
 
 ## Available Scripts
 
