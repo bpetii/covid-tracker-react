@@ -5,12 +5,6 @@ import { CenteredContent } from '@dhis2/ui'
 const CaseInfo = props => {
     return (
         props.case && (
-<<<<<<< Updated upstream
-            <section className={styles.container2}>
-                {console.log('casesInfo component')}
-                <h1>{props.case.firstName}</h1>
-                <h1>{props.case.sureName}</h1>
-=======
             <>
                 <CenteredContent
                     dataTest="dhis2-uicore-centeredcontent"
@@ -22,8 +16,7 @@ const CaseInfo = props => {
                 </CenteredContent>
                 <section className={styles.container}>
                     {console.log('casesInfo component')}
->>>>>>> Stashed changes
-
+                    Stashed changes
                     <label>First Name:</label>
                     <input onChange={() => {}} value={props.case.firstName} />
                     <label>Last Name:</label>

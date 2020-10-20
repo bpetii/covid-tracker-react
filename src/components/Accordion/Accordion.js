@@ -38,9 +38,7 @@ const accordion = props => {
     const [isClusterinfoOpen, setClusterInfo] = useState(false)
     const [isCasesInfoOpen, setCasesInfo] = useState(false)
     const [selectedPerson, setSelectedPerson] = useState(null)
-<<<<<<< Updated upstream
 
-=======
     const queryRelationships = {
         relationship: {
             resource: 'relationships',
@@ -49,7 +47,7 @@ const accordion = props => {
             },
         },
     }
->>>>>>> Stashed changes
+
     const { loading, error, data } = useDataQuery(queryRelationships, {
         variables: {
             id: props.attributes.tei,
