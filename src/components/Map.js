@@ -1,53 +1,58 @@
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react'
-import React, { Component } from 'react'
+import React, { useState } from 'react'
+import styles from '../App.module.css'
+import { Map, TileLayer, Tooltip, CircleMarker } from 'react-leaflet'
 
-export class MapComponent extends Component {
-    state = {
-        showingInfoWindow: false, // Hides or shows the InfoWindow
-        activeMarker: {}, // Shows the active marker upon click
-        selectedPlace: {}, // Shows the InfoWindow to the selected place upon a marker
-    }
-    onMarkerClick = (props, marker, e) =>
-        this.setState({
-            selectedPlace: props,
-            activeMarker: marker,
-            showingInfoWindow: true,
+const BASIC_RADIUS = 15
+
+const MapComponent = props => {
+    const [state, setState] = useState({
+        centerPosition: {
+            lat: 59.923914,
+            lng: 10.779966,
+        },
+
+        zoom: 5,
+    })
+
+    let circleMarker = null
+    if (props.clusters) {
+        console.log('Map ' + props.clusters)
+        circleMarker = props.clusters.map(cluster => {
+            return (
+                cluster.location.lng && (
+                    <CircleMarker
+                        key={cluster.tei}
+                        color={cluster.relationships >= 5 ? 'red' : 'yellow'}
+                        center={[cluster.location.lat, cluster.location.lng]}
+                        radius={BASIC_RADIUS + +cluster.relationships}
+                    >
+                        {console.log('location: ' + cluster.location.lat)}
+                        <Tooltip direction="top" offset={[10, 0]}>
+                            {cluster.name + ` (${cluster.relationships})`}
+                        </Tooltip>
+                    </CircleMarker>
+                )
+            )
         })
+    }
 
-    onClose = props => {
-        if (this.state.showingInfoWindow) {
-            this.setState({
-                showingInfoWindow: false,
-                activeMarker: null,
-            })
-        }
-    }
-    render() {
-        console.log(this.props.google)
-        return (
-            <Map
-                google={this.props.google}
-                zoom={14}
-                initialCenter={this.props.location}
-            >
-                <Marker
-                    onClick={this.onMarkerClick}
-                    name={'Kenyatta International Convention Centre'}
-                />
-                <InfoWindow
-                    marker={this.state.activeMarker}
-                    visible={this.state.showingInfoWindow}
-                    onClose={this.onClose}
-                >
-                    <div>
-                        <h4>{this.state.selectedPlace.name}</h4>
-                    </div>
-                </InfoWindow>
-            </Map>
-        )
-    }
+    const center = props.isBig
+        ? [state.centerPosition.lat, state.centerPosition.lng]
+        : [props.clusters[0].location.lat, props.clusters[0].location.lng]
+
+    return (
+        <Map
+            className={props.isBig ? styles.mapBig : styles.mapSmall}
+            center={center}
+            zoom={state.zoom}
+        >
+            <TileLayer
+                attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            {circleMarker}
+        </Map>
+    )
 }
 
-export default GoogleApiWrapper({
-    apiKey: 'AIzaSyAUyWvLnK0uBqZxIESctUiZJ68dzYVn3Lk',
-})(MapComponent)
+export default MapComponent

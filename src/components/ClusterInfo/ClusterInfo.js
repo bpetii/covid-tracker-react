@@ -55,7 +55,34 @@ const ClusterInfo = props => {
                     </TableBody>
                 </Table>
                 <section>
-                    <div className={styles.box}></div>
+                    <div className={styles.box}>
+                        {props.clusterInfo.location.lat ? (
+                            <MapComponent
+                                clusters={[
+                                    {
+                                        location: {
+                                            lat: props.clusterInfo.location.lat,
+                                            lng: props.clusterInfo.location.lng,
+                                        },
+                                        name: props.clusterInfo.name,
+                                        isBig: false,
+                                        relationships:
+                                            props.clusterInfo.relationships,
+                                    },
+                                ]}
+                            />
+                        ) : (
+                            <p
+                                style={{
+                                    position: 'relative',
+                                    top: '40%',
+                                    left: '30%',
+                                }}
+                            >
+                                No coordiation
+                            </p>
+                        )}
+                    </div>
 
                     <Button
                         dataTest="dhis2-uicore-button"

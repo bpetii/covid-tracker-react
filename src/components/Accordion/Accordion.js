@@ -4,7 +4,7 @@ import { useDataQuery } from '@dhis2/app-runtime'
 import Modal from '../UI/Modal/Modal'
 import ClusterInfo from '../ClusterInfo/ClusterInfo'
 import CasesInfo from '../CaseInfo/CaseInfo'
-import Spinner from '../UI/Spinner/Spinner'
+import MapComponent from '../Map'
 import stylesAccordion from './Accordion.module.css'
 import {
     Table,
@@ -33,26 +33,23 @@ const queryRelationships = {
     },
 }
 
-const accordion = props => {
+const accordion = React.memo(props => {
     const [isToggled, setToggle] = useState(false)
     const [isClusterinfoOpen, setClusterInfo] = useState(false)
     const [isCasesInfoOpen, setCasesInfo] = useState(false)
     const [selectedPerson, setSelectedPerson] = useState(null)
 
-    const queryRelationships = {
-        relationship: {
-            resource: 'relationships',
-            params: {
-                tei: props.attributes.tei,
-            },
-        },
-    }
-
-    const { loading, error, data } = useDataQuery(queryRelationships, {
+    const { error, data } = useDataQuery(queryRelationships, {
         variables: {
             id: props.attributes.tei,
         },
     })
+
+    let rowStyle = props.index % 2 ? styles.zebraStripping : null
+    if (isToggled) {
+        rowStyle = styles.isActive
+    }
+
     const casesArray = []
 
     if (isToggled) {
@@ -62,7 +59,7 @@ const accordion = props => {
                 const Case = {
                     tei: '',
                     firstName: '-',
-                    sureName: '-',
+                    surName: '-',
                     sex: '-',
                     numberId: '-',
                     country: '-',
@@ -74,7 +71,7 @@ const accordion = props => {
                 relationship.from.trackedEntityInstance.attributes.map(attr => {
                     const { value, displayName } = attr
                     if (displayName === CASE_FIRSTNAME) Case.firstName = value
-                    if (displayName === CASE_SURNAME) Case.sureName = value
+                    if (displayName === CASE_SURNAME) Case.surName = value
                     if (displayName === CASE_SEX) Case.sex = value
                     if (displayName === CASE_AGE) Case.age = value
                     if (displayName === CASE_COUNTRY) Case.country = value
@@ -152,7 +149,7 @@ const accordion = props => {
                                                 {person.firstName}
                                             </TableCell>
                                             <TableCell dataTest="dhis2-uicore-tablecell">
-                                                {person.sureName}
+                                                {person.surName}
                                             </TableCell>
                                             <TableCell dataTest="dhis2-uicore-tablecell">
                                                 <Button
@@ -169,7 +166,39 @@ const accordion = props => {
                             </TableBody>
                         </Table>
                         <section>
-                            <div className={stylesAccordion.box}></div>
+                            <div className={stylesAccordion.box}>
+                                {props.attributes.location.lat ? (
+                                    <MapComponent
+                                        clusters={[
+                                            {
+                                                location: {
+                                                    lat:
+                                                        props.attributes
+                                                            .location.lat,
+                                                    lng:
+                                                        props.attributes
+                                                            .location.lng,
+                                                },
+                                                name: props.attributes.name,
+                                                isBig: false,
+                                                relationships:
+                                                    props.attributes
+                                                        .relationships,
+                                            },
+                                        ]}
+                                    />
+                                ) : (
+                                    <p
+                                        style={{
+                                            position: 'relative',
+                                            top: '40%',
+                                            left: '30%',
+                                        }}
+                                    >
+                                        No coordiation
+                                    </p>
+                                )}
+                            </div>
                         </section>
                         <Button
                             onClick={openClusterHandler}
@@ -198,7 +227,7 @@ const accordion = props => {
             {console.log('accordion component')}
             {error && <Modal>{error.message}</Modal>}
             {data && (
-                <TableRow>
+                <TableRow suppressZebraStriping className={rowStyle}>
                     <TableCell dataTest="dhis2-uicore-tablecell">
                         {props.attributes.name}
                     </TableCell>
@@ -232,6 +261,6 @@ const accordion = props => {
             {isToggled ? toggledRow : null}
         </>
     )
-}
+})
 
 export default accordion
