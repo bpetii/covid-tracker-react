@@ -36,7 +36,7 @@ const Clusters = props => {
                         <TableCellHead dataTest="dhis2-uicore-tablecellhead"></TableCellHead>
                     </TableRowHead>
                 </TableHead>
-                <TableBody  dataTest="dhis2-uicore-tablebody">
+                <TableBody dataTest="dhis2-uicore-tablebody">
                     {props.clusters.map((attr, index) => {
                         return (
                             <Accordion
