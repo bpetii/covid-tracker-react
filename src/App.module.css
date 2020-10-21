@@ -36,8 +36,7 @@
 }
 
 .text {
-    color: red;
-    font-weight: bold;
+    color: red  ;
     background: transparent;
     border: 0;
     box-shadow: none;
