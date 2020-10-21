@@ -44,7 +44,6 @@ const MyApp = () => {
 
     const { loading, error, data } = useDataQuery(queryClusters)
 
-    console.log(location)
     const clusters = []
 
     if (data) {
