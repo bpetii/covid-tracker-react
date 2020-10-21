@@ -5,7 +5,7 @@ import Modal from '../UI/Modal/Modal'
 import ClusterInfo from '../ClusterInfo/ClusterInfo'
 import CasesInfo from '../CaseInfo/CaseInfo'
 import Spinner from '../UI/Spinner/Spinner'
-
+import stylesAccordion from './Accordion.module.css'
 import {
     Table,
     TableHead,
@@ -16,7 +16,6 @@ import {
     TableCell,
     Button,
 } from '@dhis2/ui-core'
-
 const CASE_FIRSTNAME = 'First Name'
 const CASE_SURNAME = 'Surname'
 const CASE_AGE = 'Age'
@@ -90,6 +89,7 @@ const accordion = React.memo(props => {
         setSelectedPerson(person)
         setCasesInfo(prevState => !prevState)
     }
+
     const toggledRow = (
         <>
             <Modal show={isClusterinfoOpen} modalClosed={openClusterHandler}>
@@ -105,15 +105,22 @@ const accordion = React.memo(props => {
 
             <TableRow>
                 <TableCell colSpan="6" dataTest="dhis2-uicore-tablecell">
-                    <div>
+                    <div className={stylesAccordion.container}>
                         <h2>Details:</h2>
-                        <Table dataTest="dhis2-uicore-table">
+                        <br />
+                        <Table
+                            dataTest="dhis2-uicore-table"
+                            className={stylesAccordion.table}
+                        >
                             <TableHead dataTest="dhis2-uicore-tablehead">
                                 <TableRowHead dataTest="dhis2-uicore-tablerowhead">
                                     <TableCellHead dataTest="dhis2-uicore-tablecellhead">
                                         ID
                                     </TableCellHead>
-                                    <TableCellHead dataTest="dhis2-uicore-tablecellhead">
+                                    <TableCellHead
+                                        dataTest="dhis2-uicore-tablecellhead"
+                                        width="20px"
+                                    >
                                         Firstname
                                     </TableCellHead>
                                     <TableCellHead dataTest="dhis2-uicore-tablecellhead">
@@ -127,7 +134,6 @@ const accordion = React.memo(props => {
                                     return (
                                         <TableRow
                                             key={person.id}
-                                            suppressZebraStriping
                                             dataTest="dhis2-uicore-tablerow"
                                         >
                                             <TableCell dataTest="dhis2-uicore-tablecell">
@@ -153,14 +159,31 @@ const accordion = React.memo(props => {
                                 })}
                             </TableBody>
                         </Table>
+                        <section>
+                            <div className={stylesAccordion.box}></div>
+                        </section>
+                        <Button
+                            onClick={openClusterHandler}
+                            className={stylesAccordion.table}
+                        >
+                            Show more information
+                        </Button>
+                        <section>
+                            <Button
+                                dataTest="dhis2-uicore-button"
+                                name="openmap"
+                                type="button"
+                                value="Open Map"
+                                className={stylesAccordion.openMappButton}
+                            >
+                                Open Map
+                            </Button>
+                        </section>
                     </div>
                 </TableCell>
             </TableRow>
-
-            <Button onClick={openClusterHandler}>Show more information</Button>
         </>
     )
-
     return (
         <>
             {console.log('accordion component')}

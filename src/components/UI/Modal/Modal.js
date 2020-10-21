@@ -24,6 +24,7 @@ class Modal extends Component {
                             ? 'translateY(0)'
                             : 'translateY(-100vh)',
                         opacity: this.props.show ? '1' : '0',
+                        minWidth: '500px',
                     }}
                 >
                     {this.props.children}
