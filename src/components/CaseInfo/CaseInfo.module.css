@@ -1,4 +1,4 @@
-.container2 {
+.container {
     width: 450px;
     height: 100%;
     font-size: 1rem;
@@ -7,19 +7,21 @@
     grid-template-columns: minmax(200px, auto) 1fr;
     grid-template-areas: 'sidebar main';
     padding: 10px;
-    border: 1px solid grey;
-    background-color: rgba(128, 128, 128, 0.171);
-    margin: 10px 10px 10px 20px;
+    border: 1px solid rgb(232, 237, 242);
+    background-color: #f2f9ff;
+    margin: 10px;
 }
 
-.container2 p {
+.container p {
     margin: 0 0 16px 0;
     padding: 16px;
     background-color: white;
+    border: 1px solid rgb(232, 237, 242);
 }
-.container2 label {
+.container label {
     color: #4287bd;
+    padding: 16px;
 }
-.container2 h1 {
+.fullName {
     color: rgb(44, 102, 147);
 }
