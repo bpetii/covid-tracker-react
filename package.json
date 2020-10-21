@@ -30,6 +30,7 @@
         "@dhis2/d2-ui-core": "^7.0.8",
         "@dhis2/prop-types": "^2.0.0",
         "@dhis2/ui": "^5.7.2",
-        "google-maps-react": "^2.0.6"
+        "leaflet": "^1.7.1",
+        "react-leaflet": "^2.7.0"
     }
 }

@@ -1,16 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import i18n from '@dhis2/d2-i18n'
 import { Menu, MenuItem, MenuSectionHeader } from '@dhis2/ui'
 import styles from './App.module.css'
-import Map from './components/Map'
+import MapComponent from './components/Map'
 import { Clusters } from './components/Clusters'
 
 const MyApp = () => {
     const [cluster, setPage] = useState(true)
-
-    useEffect(() => {
-        setPage(true)
-    }, [])
 
     const setClusterHandler = () => {
         setPage(true)
@@ -21,6 +17,7 @@ const MyApp = () => {
     }
     return (
         <div className={styles.container}>
+            {console.log(cluster)}
             <nav className={styles.menu} data-test-id="menu">
                 <MenuSectionHeader label={i18n.t('Menu')} />
                 <Menu>
@@ -43,11 +40,10 @@ const MyApp = () => {
                 <div>{cluster && <Clusters />}</div>
                 <div>
                     {!cluster && (
-                        <Map
-                            location={{
-                                lat: -1.2884,
-                                lng: 36.8233,
-                            }}
+                        <MapComponent
+                            location={{ lat: 42.5, lng: 52.1 }}
+                            name={'Cluster 1'}
+                            isBig
                         />
                     )}
                 </div>

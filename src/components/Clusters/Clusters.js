@@ -38,14 +38,14 @@ const queryClusters = {
 }
 
 const Clusters = () => {
+    const { loading, error, data } = useDataQuery(queryClusters)
+
     const clusters = []
 
-    const { loading, error, data } = useDataQuery(queryClusters)
-    console.log('data', data)
-
     if (data) {
-        const clustersArray = data.trackedEntityInstances.trackedEntityInstances
-        clustersArray.map(cluster => {
+        const entityInstances =
+            data.trackedEntityInstances.trackedEntityInstances
+        const clustersArray = entityInstances.map(cluster => {
             const clusterObject = {
                 tei: '',
                 name: '-',
@@ -70,8 +70,9 @@ const Clusters = () => {
                 if (displayName === CLUSTER_LOCATION)
                     clusterObject.location = value
             })
-            clusters.push(clusterObject)
+            return clusterObject
         })
+        clusters.push(...clustersArray)
     }
 
     return (

@@ -15,7 +15,9 @@ import {
 
 const ClusterInfo = props => {
     console.log('clusterInfo component')
-
+    const formattedLocation = props.clusterInfo.location
+        .replace(/[^0-9 |.|,]/g, '')
+        .split(',')
     return (
         <div>
             <div className={styles.container}>
@@ -55,7 +57,18 @@ const ClusterInfo = props => {
                     </TableBody>
                 </Table>
                 <section>
-                    <div className={styles.box}></div>
+                    {console.log()}
+
+                    <div className={styles.box}>
+                        <MapComponent
+                            location={{
+                                lat: formattedLocation[1],
+                                lng: formattedLocation[0],
+                            }}
+                            name={props.clusterInfo.name}
+                            isBig={false}
+                        />
+                    </div>
 
                     <Button
                         dataTest="dhis2-uicore-button"

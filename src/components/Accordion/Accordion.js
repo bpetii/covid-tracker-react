@@ -34,13 +34,13 @@ const queryRelationships = {
     },
 }
 
-const accordion = props => {
+const accordion = React.memo(props => {
     const [isToggled, setToggle] = useState(false)
     const [isClusterinfoOpen, setClusterInfo] = useState(false)
     const [isCasesInfoOpen, setCasesInfo] = useState(false)
     const [selectedPerson, setSelectedPerson] = useState(null)
 
-    const { loading, error, data } = useDataQuery(queryRelationships, {
+    const { error, data } = useDataQuery(queryRelationships, {
         variables: {
             id: props.attributes.tei,
         },
@@ -200,6 +200,6 @@ const accordion = props => {
             {isToggled ? toggledRow : null}
         </>
     )
-}
+})
 
 export default accordion

@@ -1,53 +1,42 @@
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react'
-import React, { Component } from 'react'
+import React, { useState } from 'react'
+import L from 'leaflet'
+import styles from '../App.module.css'
+import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
+import leafGreen from '../assets/leaf-green.png'
 
-export class MapComponent extends Component {
-    state = {
-        showingInfoWindow: false, // Hides or shows the InfoWindow
-        activeMarker: {}, // Shows the active marker upon click
-        selectedPlace: {}, // Shows the InfoWindow to the selected place upon a marker
-    }
-    onMarkerClick = (props, marker, e) =>
-        this.setState({
-            selectedPlace: props,
-            activeMarker: marker,
-            showingInfoWindow: true,
-        })
+const greenIcon = L.icon({
+    iconUrl: leafGreen,
+    iconSize: [38, 95],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+})
 
-    onClose = props => {
-        if (this.state.showingInfoWindow) {
-            this.setState({
-                showingInfoWindow: false,
-                activeMarker: null,
-            })
-        }
-    }
-    render() {
-        console.log(this.props.google)
-        return (
-            <Map
-                google={this.props.google}
-                zoom={14}
-                initialCenter={this.props.location}
-            >
-                <Marker
-                    onClick={this.onMarkerClick}
-                    name={'Kenyatta International Convention Centre'}
-                />
-                <InfoWindow
-                    marker={this.state.activeMarker}
-                    visible={this.state.showingInfoWindow}
-                    onClose={this.onClose}
-                >
-                    <div>
-                        <h4>{this.state.selectedPlace.name}</h4>
-                    </div>
-                </InfoWindow>
-            </Map>
-        )
-    }
+const MapComponent = props => {
+    const [state, setState] = useState({
+        greenIcon: {
+            lat: props.location.lat,
+            lng: props.location.lng,
+        },
+
+        zoom: 13,
+    })
+
+    const positionGreenIcon = [state.greenIcon.lat, state.greenIcon.lng]
+    return (
+        <Map
+            className={props.isBig ? styles.mapBig : styles.mapSmall}
+            center={positionGreenIcon}
+            zoom={state.zoom}
+        >
+            <TileLayer
+                attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <Marker position={positionGreenIcon} icon={greenIcon}>
+                <Popup>{props.name}</Popup>
+            </Marker>
+        </Map>
+    )
 }
 
-export default GoogleApiWrapper({
-    apiKey: 'AIzaSyAUyWvLnK0uBqZxIESctUiZJ68dzYVn3Lk',
-})(MapComponent)
+export default MapComponent
