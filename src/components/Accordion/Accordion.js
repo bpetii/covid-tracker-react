@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styles from '../../App.module.css'
 import { useDataQuery } from '@dhis2/app-runtime'
-import Modal from '../UI/Modal/Modal'
 import ClusterInfo from '../ClusterInfo/ClusterInfo'
 import CasesInfo from '../CaseInfo/CaseInfo'
 import MapComponent from '../Map'
@@ -15,6 +14,9 @@ import {
     TableRow,
     TableCell,
     Button,
+    Modal,
+    ModalContent,
+    ModalTitle,
 } from '@dhis2/ui-core'
 const CASE_FIRSTNAME = 'First Name'
 const CASE_SURNAME = 'Surname'
@@ -98,16 +100,51 @@ const accordion = React.memo(props => {
 
     const toggledRow = (
         <>
-            <Modal show={isClusterinfoOpen} modalClosed={openClusterHandler}>
-                <ClusterInfo
-                    cases={casesArray}
-                    clusterInfo={props.attributes}
-                />
-            </Modal>
+            {isClusterinfoOpen && (
+                <Modal
+                    className={styles.Modal}
+                    dataTest="dhis2-uicore-modal"
+                    show={isClusterinfoOpen}
+                    onClose={openClusterHandler}
+                    position="middle"
+                    large
+                >
+                    <ModalTitle dataTest="dhis2-uicore-modaltitle">
+                        <div style={{ display: 'inline', fontSize: '0.em' }}>
+                            <h1 style={{ float: 'left' }}>
+                                {props.attributes.name}
+                            </h1>
+                            <h1 style={{ float: 'right' }}>
+                                Cases: {props.attributes.relationships}
+                            </h1>
+                        </div>
+                    </ModalTitle>
 
-            <Modal show={isCasesInfoOpen} modalClosed={openCasesHandler}>
-                <CasesInfo case={selectedPerson} />
-            </Modal>
+                    <ModalContent>
+                        <ClusterInfo
+                            cases={casesArray}
+                            clusterInfo={props.attributes}
+                            onOpenMap={() =>
+                                props.onClickMap(props.attributes.location)
+                            }
+                        />
+                    </ModalContent>
+                </Modal>
+            )}
+
+            {isCasesInfoOpen && (
+                <Modal
+                    className={styles.Modal}
+                    dataTest="dhis2-uicore-modal"
+                    show={isCasesInfoOpen}
+                    onClose={openCasesHandler}
+                    position="middle"
+                >
+                    <ModalContent>
+                        <CasesInfo case={selectedPerson} />
+                    </ModalContent>
+                </Modal>
+            )}
 
             <TableRow>
                 <TableCell colSpan="6" dataTest="dhis2-uicore-tablecell">
@@ -136,7 +173,7 @@ const accordion = React.memo(props => {
                                 </TableRowHead>
                             </TableHead>
                             <TableBody dataTest="dhis2-uicore-tablebody">
-                                {casesArray.map(person => {
+                                {casesArray.slice(0, 5).map(person => {
                                     return (
                                         <TableRow
                                             key={person.id}
@@ -180,6 +217,9 @@ const accordion = React.memo(props => {
                                                             .location.lng,
                                                 },
                                                 name: props.attributes.name,
+                                                description:
+                                                    props.attributes
+                                                        .description,
                                                 isBig: false,
                                                 relationships:
                                                     props.attributes
@@ -213,6 +253,12 @@ const accordion = React.memo(props => {
                                 type="button"
                                 value="Open Map"
                                 className={stylesAccordion.openMappButton}
+                                onClick={() =>
+                                    props.onClickMap(
+                                        props.attributes.location,
+                                        props.attributes.tei
+                                    )
+                                }
                             >
                                 Open Map
                             </Button>
@@ -224,7 +270,6 @@ const accordion = React.memo(props => {
     )
     return (
         <>
-            {console.log('accordion component')}
             {error && <Modal>{error.message}</Modal>}
             {data && (
                 <TableRow suppressZebraStriping className={rowStyle}>

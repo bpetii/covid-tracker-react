@@ -1,50 +1,85 @@
 import React, { useState } from 'react'
 import styles from '../App.module.css'
-import { Map, TileLayer, Tooltip, CircleMarker } from 'react-leaflet'
+import { Map, TileLayer, Popup, Tooltip, CircleMarker } from 'react-leaflet'
 
 const BASIC_RADIUS = 15
 
 const MapComponent = props => {
-    const [state, setState] = useState({
-        centerPosition: {
-            lat: 59.923914,
-            lng: 10.779966,
-        },
+    const [zoom] = useState(5)
 
-        zoom: 5,
-    })
+    const setClusterColor = caseNumber => {
+        switch (true) {
+            case caseNumber <= 5:
+                return '#fed79c'
+            case 5 < caseNumber && caseNumber <= 15:
+                return '#ef5350'
+            case caseNumber > 15:
+                return '#c62828'
+            default:
+                return '#c62828'
+        }
+    }
+
+    function openPopup(circle) {
+        if (circle && circle.leafletElement) {
+            window.setTimeout(() => {
+                circle.leafletElement.openPopup()
+            })
+        }
+    }
 
     let circleMarker = null
     if (props.clusters) {
         console.log('Map ' + props.clusters)
         circleMarker = props.clusters.map(cluster => {
+            const color = setClusterColor(cluster.relationships)
             return (
                 cluster.location.lng && (
                     <CircleMarker
+                        ref={
+                            cluster.tei === props.clickedClusterTei &&
+                            props.isBig
+                                ? openPopup
+                                : null
+                        }
                         key={cluster.tei}
-                        color={cluster.relationships >= 5 ? 'red' : 'yellow'}
+                        color={color}
+                        fillColor={color}
                         center={[cluster.location.lat, cluster.location.lng]}
                         radius={BASIC_RADIUS + +cluster.relationships}
                     >
                         {console.log('location: ' + cluster.location.lat)}
-                        <Tooltip direction="top" offset={[10, 0]}>
-                            {cluster.name + ` (${cluster.relationships})`}
+                        <Tooltip
+                            className={styles.text}
+                            permanent
+                            direction="center"
+                            opacity={1}
+                        >
+                            {cluster.relationships}
                         </Tooltip>
+                        <Popup>
+                            <b>Name: </b> {cluster.name}
+                            <br />
+                            <b>Description: </b> {cluster.description}
+                            <br />
+                            <b>Cases: </b> {cluster.relationships}
+                        </Popup>
                     </CircleMarker>
                 )
             )
         })
     }
 
+    console.log(props.location)
     const center = props.isBig
-        ? [state.centerPosition.lat, state.centerPosition.lng]
+        ? [props.location.lat, props.location.lng]
         : [props.clusters[0].location.lat, props.clusters[0].location.lng]
 
     return (
         <Map
             className={props.isBig ? styles.mapBig : styles.mapSmall}
             center={center}
-            zoom={state.zoom}
+            zoom={zoom}
         >
             <TileLayer
                 attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

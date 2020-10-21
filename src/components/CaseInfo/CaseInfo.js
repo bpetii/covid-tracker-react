@@ -7,7 +7,6 @@ const CaseInfo = props => {
     let continent = '-'
     let country = '-'
     if (props.case && props.case.country && lookup.byFips(props.case.country)) {
-        console.log(lookup.byFips(props.case.country))
         continent = lookup.byFips(props.case.country).continent
         country = lookup.byFips(props.case.country).country
     }

@@ -13,8 +13,6 @@ import Accordion from '../Accordion/Accordion'
 const Clusters = props => {
     return (
         <div>
-            {console.log('clutsers component')}
-
             <Table dataTest="dhis2-uicore-table">
                 <TableHead dataTest="dhis2-uicore-tablehead">
                     <TableRowHead dataTest="dhis2-uicore-tablerowhead">
@@ -43,6 +41,7 @@ const Clusters = props => {
                                 key={attr.tei}
                                 attributes={attr}
                                 index={index}
+                                onClickMap={props.onOpenMap}
                             />
                         )
                     })}
