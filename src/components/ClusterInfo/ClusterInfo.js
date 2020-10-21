@@ -65,6 +65,8 @@ const ClusterInfo = props => {
                                             lng: props.clusterInfo.location.lng,
                                         },
                                         name: props.clusterInfo.name,
+                                        description:
+                                            props.clusterInfo.description,
                                         isBig: false,
                                         relationships:
                                             props.clusterInfo.relationships,
@@ -90,6 +92,7 @@ const ClusterInfo = props => {
                         type="button"
                         value="Open Map"
                         className={styles.openMappButton}
+                        onClick={props.onOpenMap}
                     >
                         Open Map
                     </Button>

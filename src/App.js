@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import i18n from '@dhis2/d2-i18n'
-import { Menu, MenuItem, MenuSectionHeader } from '@dhis2/ui'
+import { Menu, MenuItem, MenuSectionHeader, Modal } from '@dhis2/ui'
 import styles from './App.module.css'
 import MapComponent from './components/Map'
 import { Clusters } from './components/Clusters'
 import Spinner from './components/UI/Spinner/Spinner'
-import Modal from './components/UI/Modal/Modal'
+/* import Modal from './components/UI/Modal/Modal' */
 import { useDataQuery } from '@dhis2/app-runtime'
 
 const CLUSTER_NAME = 'Cluster name'
@@ -36,9 +36,15 @@ const queryClusters = {
 
 const MyApp = () => {
     const [cluster, setPage] = useState(true)
+    const [clickedTei, setTei] = useState('')
+    const [location, setLocation] = useState({
+        lat: 59.923914,
+        lng: 10.779966,
+    })
 
     const { loading, error, data } = useDataQuery(queryClusters)
 
+    console.log(location)
     const clusters = []
 
     if (data) {
@@ -56,7 +62,6 @@ const MyApp = () => {
                 relationships: 0,
             }
             clusterObject.tei = cluster.trackedEntityInstance
-            console.log('new cluster')
             clusterObject.relationships = cluster.relationships.length
 
             cluster.attributes.map(attr => {
@@ -77,7 +82,6 @@ const MyApp = () => {
                     clusterObject.location.lng = location[0]
                 }
             })
-            console.log(clusterObject.location)
             return clusterObject
         })
         clusters.push(...clustersArray)
@@ -87,7 +91,9 @@ const MyApp = () => {
         setPage(true)
     }
 
-    const setMapHandler = () => {
+    const setMapHandler = (location, tei) => {
+        setLocation({ lat: location.lat, lng: location.lng })
+        setTei(tei)
         setPage(false)
     }
     return (
@@ -104,7 +110,7 @@ const MyApp = () => {
                     <MenuItem
                         label={i18n.t('Map')}
                         dataTest="menu-dataSets"
-                        onClick={setMapHandler}
+                        onClick={() => setMapHandler(location)}
                         active={!cluster}
                     ></MenuItem>
                 </Menu>
@@ -113,15 +119,21 @@ const MyApp = () => {
             <main className={styles.main}>
                 <div>
                     {error && <Modal>{error}</Modal>}
-                    {loading && <Spinner />}{' '}
-                    {cluster && clusters && <Clusters clusters={clusters} />}
+                    {loading && <Spinner />}
+                    {cluster && clusters && (
+                        <Clusters
+                            onOpenMap={setMapHandler}
+                            clusters={clusters}
+                        />
+                    )}
                 </div>
                 <div>
                     {!cluster && (
                         <MapComponent
                             clusters={clusters}
+                            location={location}
+                            clickedClusterTei={clickedTei}
                             isBig
-                            relationships={10}
                         />
                     )}
                 </div>
