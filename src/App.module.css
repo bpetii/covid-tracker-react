@@ -26,11 +26,13 @@
 
 .mapBig {
     height: 100vh;
+    z-index: 50;
 }
 
 .mapSmall {
     height: 100%;
     width: 100%;
+    z-index: 50;
 }
 
 /* ------------------------------------------------------------------*/
@@ -144,6 +146,14 @@
 
 /* ------------------------------------------------- */
 /* Accordion */
+
+.isActive {
+    background-color: #d4dde5;
+}
+
+.zebraStripping {
+    background-color: #f7fbfc;
+}
 
 .accordion {
     background-color: #eee;

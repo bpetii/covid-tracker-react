@@ -1,8 +1,17 @@
 import React from 'react'
 import styles from './CaseInfo.module.css'
 import { CenteredContent } from '@dhis2/ui'
+import lookup from 'country-code-lookup'
 
 const CaseInfo = props => {
+    let continent = '-'
+    let country = '-'
+    if (props.case && props.case.country && lookup.byFips(props.case.country)) {
+        console.log(lookup.byFips(props.case.country))
+        continent = lookup.byFips(props.case.country).continent
+        country = lookup.byFips(props.case.country).country
+    }
+
     return (
         props.case && (
             <>
@@ -11,7 +20,7 @@ const CaseInfo = props => {
                     position="top"
                 >
                     <h1 className={styles.fullName}>
-                        {props.case.firstName} {props.case.sureName}
+                        {props.case.firstName} {props.case.surName}
                     </h1>
                 </CenteredContent>
                 <section className={styles.container}>
@@ -20,7 +29,7 @@ const CaseInfo = props => {
                     <label>First Name:</label>
                     <p>{props.case.firstName}</p>
                     <label>Last Name:</label>
-                    <p>{props.case.sureName}</p>
+                    <p>{props.case.surName}</p>
                     <label>Date of Birth:</label>
                     <p>{props.case.birthDate}</p>
                     <label>Age:</label>
@@ -30,7 +39,7 @@ const CaseInfo = props => {
                     <label>National ID number:</label>
                     <p>{props.case.numberId}</p>
                     <label>Country of birth:</label>
-                    <p>{props.case.country}</p>
+                    <p>{`${continent}/${country}`}</p>
                 </section>
             </>
         )

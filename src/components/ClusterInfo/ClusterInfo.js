@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './ClusterInfo.module.css'
 import MapComponent from '../Map'
 
+
 import {
     Table,
     TableHead,
@@ -15,9 +16,7 @@ import {
 
 const ClusterInfo = props => {
     console.log('clusterInfo component')
-    const formattedLocation = props.clusterInfo.location
-        .replace(/[^0-9 |.|,]/g, '')
-        .split(',')
+
     return (
         <div>
             <div className={styles.container}>
@@ -57,17 +56,33 @@ const ClusterInfo = props => {
                     </TableBody>
                 </Table>
                 <section>
-                    {console.log()}
-
                     <div className={styles.box}>
-                        <MapComponent
-                            location={{
-                                lat: formattedLocation[1],
-                                lng: formattedLocation[0],
-                            }}
-                            name={props.clusterInfo.name}
-                            isBig={false}
-                        />
+                        {props.clusterInfo.location.lat ? (
+                            <MapComponent
+                                clusters={[
+                                    {
+                                        location: {
+                                            lat: props.clusterInfo.location.lat,
+                                            lng: props.clusterInfo.location.lng,
+                                        },
+                                        name: props.clusterInfo.name,
+                                        isBig: false,
+                                        relationships:
+                                            props.clusterInfo.relationships,
+                                    },
+                                ]}
+                            />
+                        ) : (
+                            <p
+                                style={{
+                                    position: 'relative',
+                                    top: '40%',
+                                    left: '30%',
+                                }}
+                            >
+                                No coordiation
+                            </p>
+                        )}
                     </div>
 
                     <Button
