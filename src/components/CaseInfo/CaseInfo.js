@@ -2,8 +2,36 @@ import React from 'react'
 import styles from './CaseInfo.module.css'
 import { CenteredContent } from '@dhis2/ui'
 import lookup from 'country-code-lookup'
+import { useDataQuery } from '@dhis2/app-runtime'
+
+const queryRelationships = {
+    relationship: {
+        resource: 'trackedEntityInstances',
+        id: ({ id }) => id,
+        params: {
+            fields: '*',
+        },
+    },
+}
 
 const CaseInfo = props => {
+    const { error, data } = useDataQuery(queryRelationships, {
+        variables: {
+            id: props.case.tei,
+        },
+    })
+    let statusInfection = null
+
+    if (data) {
+        data.relationship.enrollments[0].events.map(event => {
+            if (event.programStage === 'dDHkBd3X8Ce') {
+                if (event.dataValues[0].dataElement === 'ovY6E8BSdto') {
+                    statusInfection = event.dataValues[0].value
+                }
+            }
+        })
+    }
+
     console.log('CasesInfo component')
     let continent = '-'
     let country = '-'
@@ -24,6 +52,8 @@ const CaseInfo = props => {
                     </h1>
                 </CenteredContent>
                 <section className={styles.container}>
+                    <label>Status:</label>
+                    <p>{statusInfection}</p>
                     <label>First Name:</label>
                     <p>{props.case.firstName}</p>
                     <label>Last Name:</label>

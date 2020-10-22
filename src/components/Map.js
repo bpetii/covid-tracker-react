@@ -69,6 +69,7 @@ const mapComponent = React.memo(props => {
                             <br />
                             <b>Cases: </b> {cluster.relationships}
                             <br />
+                            <b>Status: </b> {cluster.status}
                         </Popup>
                     </CircleMarker>
                 )
