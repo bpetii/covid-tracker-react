@@ -60,6 +60,7 @@ const ClusterInfo = props => {
                             <MapComponent
                                 clusters={[
                                     {
+                                        tei: props.clusterInfo.tei,
                                         location: {
                                             lat: props.clusterInfo.location.lat,
                                             lng: props.clusterInfo.location.lng,
@@ -99,9 +100,6 @@ const ClusterInfo = props => {
                             )
                         }
                     >
-                        {console.log(
-                            'ClusterInfo tei: ' + props.clusterInfo.tei
-                        )}
                         Open Map
                     </Button>
                 </section>

@@ -24,8 +24,6 @@ const CaseInfo = props => {
                     </h1>
                 </CenteredContent>
                 <section className={styles.container}>
-                    {console.log('casesInfo component')}
-
                     <label>First Name:</label>
                     <p>{props.case.firstName}</p>
                     <label>Last Name:</label>

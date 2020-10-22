@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 import styles from '../App.module.css'
 import { Map, TileLayer, Popup, Tooltip, CircleMarker } from 'react-leaflet'
 
@@ -9,7 +9,7 @@ const BASIC_RADIUS = 15
 const CLUSTER_ZOOM = 13
 const DEFAULT_ZOOM = 11
 
-const MapComponent = props => {
+const MapComponent = React.memo(props => {
     console.log('Map component')
     const [zoom] = useState(DEFAULT_ZOOM)
 
@@ -99,6 +99,6 @@ const MapComponent = props => {
             </MarkerClusterGroup>
         </Map>
     )
-}
+})
 
 export default MapComponent
