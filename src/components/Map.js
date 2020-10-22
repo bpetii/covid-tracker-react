@@ -1,13 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 import styles from '../App.module.css'
 import { Map, TileLayer, Popup, Tooltip, CircleMarker } from 'react-leaflet'
 
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 
 const BASIC_RADIUS = 15
+/* zoom values */
+const CLUSTER_ZOOM = 13
+const DEFAULT_ZOOM = 11
 
-const MapComponent = props => {
-    const [zoom] = useState(5)
+const mapComponent = React.memo(props => {
+    console.log('Map component')
+    const [zoom] = useState(DEFAULT_ZOOM)
 
     const setClusterColor = caseNumber => {
         switch (true) {
@@ -34,17 +38,16 @@ const MapComponent = props => {
     if (props.clusters) {
         circleMarker = props.clusters.map(cluster => {
             const color = setClusterColor(cluster.relationships)
-
             return (
                 cluster.location.lng && (
                     <CircleMarker
+                        key={cluster.tei}
                         ref={
                             cluster.tei === props.clickedClusterTei &&
                             props.isBig
                                 ? openPopup
                                 : null
                         }
-                        key={cluster.tei}
                         color={color}
                         fillColor={color}
                         center={[cluster.location.lat, cluster.location.lng]}
@@ -72,24 +75,30 @@ const MapComponent = props => {
             )
         })
     }
-
     const center = props.isBig
-        ? [props.location.lat, props.location.lng]
+        ? [props.zoomLocation.lat, props.zoomLocation.lng]
         : [props.clusters[0].location.lat, props.clusters[0].location.lng]
 
     return (
         <Map
             className={props.isBig ? styles.mapBig : styles.mapSmall}
             center={center}
-            zoom={zoom}
+            zoom={props.clickedClusterTei ? CLUSTER_ZOOM : zoom}
         >
             <TileLayer
                 attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <MarkerClusterGroup>{circleMarker}</MarkerClusterGroup>
+            <MarkerClusterGroup
+                spiderLegPolylineOptions={{
+                    weight: 0,
+                    opacity: 0,
+                }}
+            >
+                {circleMarker}
+            </MarkerClusterGroup>
         </Map>
     )
-}
+})
 
-export default MapComponent
+export default mapComponent

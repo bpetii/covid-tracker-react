@@ -4,6 +4,7 @@ import { CenteredContent } from '@dhis2/ui'
 import lookup from 'country-code-lookup'
 
 const CaseInfo = props => {
+    console.log('CasesInfo component')
     let continent = '-'
     let country = '-'
     if (props.case && props.case.country && lookup.byFips(props.case.country)) {
@@ -23,8 +24,6 @@ const CaseInfo = props => {
                     </h1>
                 </CenteredContent>
                 <section className={styles.container}>
-                    {console.log('casesInfo component')}
-
                     <label>First Name:</label>
                     <p>{props.case.firstName}</p>
                     <label>Last Name:</label>

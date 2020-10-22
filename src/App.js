@@ -1,11 +1,17 @@
 import React, { useState } from 'react'
 import i18n from '@dhis2/d2-i18n'
-import { Menu, MenuItem, MenuSectionHeader, Modal } from '@dhis2/ui'
+import {
+    Menu,
+    MenuItem,
+    MenuSectionHeader,
+    CircularLoader,
+    Modal,
+    ModalContent,
+    ModalTitle,
+} from '@dhis2/ui'
 import styles from './App.module.css'
 import MapComponent from './components/Map'
 import { Clusters } from './components/Clusters'
-import Spinner from './components/UI/Spinner/Spinner'
-/* import Modal from './components/UI/Modal/Modal' */
 import { useDataQuery } from '@dhis2/app-runtime'
 
 const CLUSTER_NAME = 'Cluster name'
@@ -14,6 +20,10 @@ const CLUSTER_TYPE = 'Cluster type'
 const CLUSTER_START_DATE = 'Cluster - Start date and time of cluster'
 const CLUSTER_END_DATE = 'Cluster - End date and time of cluster'
 const CLUSTER_LOCATION = 'Cluster location (geographical)'
+const AVDAL_LOCATION = {
+    lat: 62.07166667,
+    lng: 10.62222222,
+}
 
 const queryClusters = {
     trackedEntityInstances: {
@@ -35,12 +45,11 @@ const queryClusters = {
 }
 
 const MyApp = () => {
+    console.log('App component')
     const [cluster, setPage] = useState(true)
-    const [clickedTei, setTei] = useState('')
-    const [location, setLocation] = useState({
-        lat: 59.923914,
-        lng: 10.779966,
-    })
+    const [clickedTei, setTei] = useState(null)
+    const [location, setLocation] = useState(AVDAL_LOCATION)
+    const [isError, setIsError] = useState(false)
 
     const { loading, error, data } = useDataQuery(queryClusters)
 
@@ -84,10 +93,16 @@ const MyApp = () => {
             return clusterObject
         })
         clusters.push(...clustersArray)
+    } else if (error) {
+        setIsError(true)
     }
 
     const setClusterHandler = () => {
         setPage(true)
+    }
+
+    const clearError = () => {
+        setIsError(false)
     }
 
     const setMapHandler = (location, tei) => {
@@ -117,9 +132,25 @@ const MyApp = () => {
 
             <main className={styles.main}>
                 <div>
-                    {error && <Modal>{error}</Modal>}
-                    {loading && <Spinner />}
-                    {cluster && clusters && (
+                    {isError && (
+                        <Modal
+                            className={styles.Modal}
+                            dataTest="dhis2-uicore-modal"
+                            show={isError}
+                            onClose={clearError}
+                            position="middle"
+                            small
+                        >
+                            <ModalTitle dataTest="dhis2-uicore-modaltitle">
+                                {error.type}
+                            </ModalTitle>
+                            <ModalContent>{error.message}</ModalContent>
+                        </Modal>
+                    )}
+                    {loading && (
+                        <CircularLoader dataTest="dhis2-uicore-circularloader" />
+                    )}
+                    {cluster && data && (
                         <Clusters
                             onOpenMap={setMapHandler}
                             clusters={clusters}
@@ -130,7 +161,7 @@ const MyApp = () => {
                     {!cluster && (
                         <MapComponent
                             clusters={clusters}
-                            location={location}
+                            zoomLocation={location}
                             clickedClusterTei={clickedTei}
                             isBig
                         />

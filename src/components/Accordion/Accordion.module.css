@@ -16,6 +16,12 @@
 }
 .table {
     margin: 10px 0 10px 0;
+    height: 200px;
+    overflow: scroll;
+}
+
+.tableBody {
+    overflow: scroll;
 }
 .openMappButton {
     margin-left: 10px;
