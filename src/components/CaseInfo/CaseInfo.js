@@ -24,8 +24,12 @@ const CaseInfo = props => {
 
     if (data) {
         data.relationship.enrollments[0].events.map(event => {
+            console.log(event)
             if (event.programStage === 'dDHkBd3X8Ce') {
-                if (event.dataValues[0].dataElement === 'ovY6E8BSdto') {
+                if (
+                    event.dataValues[0].dataElement &&
+                    event.dataValues[0].dataElement === 'ovY6E8BSdto'
+                ) {
                     statusInfection = event.dataValues[0].value
                 }
             }

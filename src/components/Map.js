@@ -9,7 +9,7 @@ const BASIC_RADIUS = 15
 const CLUSTER_ZOOM = 13
 const DEFAULT_ZOOM = 11
 
-const mapComponent = React.memo(props => {
+const mapComponent = props => {
     console.log('Map component')
     const [zoom] = useState(DEFAULT_ZOOM)
 
@@ -100,6 +100,6 @@ const mapComponent = React.memo(props => {
             </MarkerClusterGroup>
         </Map>
     )
-})
+}
 
 export default mapComponent
