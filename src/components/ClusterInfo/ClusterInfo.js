@@ -14,7 +14,7 @@ import {
 } from '@dhis2/ui-core'
 
 const ClusterInfo = props => {
-    console.log('clusterInfo component')
+    console.log('ClusterInfo component')
 
     return (
         <div>
@@ -37,7 +37,7 @@ const ClusterInfo = props => {
                         {props.cases.map(person => {
                             return (
                                 <TableRow
-                                    key={person.surName}
+                                    key={person.tei}
                                     dataTest="dhis2-uicore-tablerow"
                                 >
                                     <TableCell dataTest="dhis2-uicore-tablecell">
@@ -92,8 +92,16 @@ const ClusterInfo = props => {
                         type="button"
                         value="Open Map"
                         className={styles.openMappButton}
-                        onClick={props.onOpenMap}
+                        onClick={() =>
+                            props.onOpenBigMap(
+                                props.clusterInfo.location,
+                                props.clusterInfo.tei
+                            )
+                        }
                     >
+                        {console.log(
+                            'ClusterInfo tei: ' + props.clusterInfo.tei
+                        )}
                         Open Map
                     </Button>
                 </section>

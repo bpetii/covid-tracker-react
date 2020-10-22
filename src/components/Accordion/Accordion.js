@@ -36,10 +36,13 @@ const queryRelationships = {
 }
 
 const accordion = React.memo(props => {
+    console.log('Accordion component')
     const [isToggled, setToggle] = useState(false)
     const [isClusterinfoOpen, setClusterInfo] = useState(false)
     const [isCasesInfoOpen, setCasesInfo] = useState(false)
     const [selectedPerson, setSelectedPerson] = useState(null)
+    const [isError, setIsError] = useState(false)
+    const cases = []
 
     const { error, data } = useDataQuery(queryRelationships, {
         variables: {
@@ -52,13 +55,10 @@ const accordion = React.memo(props => {
         rowStyle = styles.isActive
     }
 
-    const casesArray = []
-
     if (isToggled) {
         if (data) {
-            const relationships = data.relationship
-            relationships.map(relationship => {
-                const Case = {
+            const relationships = data.relationship.map(relationship => {
+                const caseObject = {
                     tei: '',
                     firstName: '-',
                     surName: '-',
@@ -68,20 +68,27 @@ const accordion = React.memo(props => {
                     age: '-',
                     birthDate: '-',
                 }
-                Case.tei =
+                caseObject.tei =
                     relationship.from.trackedEntityInstance.trackedEntityInstance
+
                 relationship.from.trackedEntityInstance.attributes.map(attr => {
                     const { value, displayName } = attr
-                    if (displayName === CASE_FIRSTNAME) Case.firstName = value
-                    if (displayName === CASE_SURNAME) Case.surName = value
-                    if (displayName === CASE_SEX) Case.sex = value
-                    if (displayName === CASE_AGE) Case.age = value
-                    if (displayName === CASE_COUNTRY) Case.country = value
-                    if (displayName === CASE_NUMBERID) Case.numberId = value
-                    if (displayName === CASE_BIRTHDATE) Case.birthDate = value
+                    if (displayName === CASE_FIRSTNAME)
+                        caseObject.firstName = value
+                    if (displayName === CASE_SURNAME) caseObject.surName = value
+                    if (displayName === CASE_SEX) caseObject.sex = value
+                    if (displayName === CASE_AGE) caseObject.age = value
+                    if (displayName === CASE_COUNTRY) caseObject.country = value
+                    if (displayName === CASE_NUMBERID)
+                        caseObject.numberId = value
+                    if (displayName === CASE_BIRTHDATE)
+                        caseObject.birthDate = value
                 })
-                casesArray.push(Case)
+                return caseObject
             })
+            cases.push(...relationships)
+        } else if (error) {
+            setIsError(true)
         }
     }
 
@@ -96,6 +103,10 @@ const accordion = React.memo(props => {
     const openCasesHandler = person => {
         setSelectedPerson(person)
         setCasesInfo(prevState => !prevState)
+    }
+
+    const clearError = () => {
+        setIsError(false)
     }
 
     const toggledRow = (
@@ -122,11 +133,9 @@ const accordion = React.memo(props => {
 
                     <ModalContent>
                         <ClusterInfo
-                            cases={casesArray}
+                            cases={cases}
                             clusterInfo={props.attributes}
-                            onOpenMap={() =>
-                                props.onClickMap(props.attributes.location)
-                            }
+                            onOpenBigMap={props.onClickMap}
                         />
                     </ModalContent>
                 </Modal>
@@ -151,63 +160,66 @@ const accordion = React.memo(props => {
                     <div className={stylesAccordion.container}>
                         <h2>Details:</h2>
                         <br />
-                        <Table
-                            dataTest="dhis2-uicore-table"
-                            className={stylesAccordion.table}
-                        >
-                            <TableHead dataTest="dhis2-uicore-tablehead">
-                                <TableRowHead dataTest="dhis2-uicore-tablerowhead">
-                                    <TableCellHead dataTest="dhis2-uicore-tablecellhead">
-                                        ID
-                                    </TableCellHead>
-                                    <TableCellHead
-                                        dataTest="dhis2-uicore-tablecellhead"
-                                        width="20px"
-                                    >
-                                        Firstname
-                                    </TableCellHead>
-                                    <TableCellHead dataTest="dhis2-uicore-tablecellhead">
-                                        Lastname
-                                    </TableCellHead>
-                                    <TableCellHead dataTest="dhis2-uicore-tablecellhead"></TableCellHead>
-                                </TableRowHead>
-                            </TableHead>
-                            <TableBody dataTest="dhis2-uicore-tablebody">
-                                {casesArray.slice(0, 5).map(person => {
-                                    return (
-                                        <TableRow
-                                            key={person.id}
-                                            dataTest="dhis2-uicore-tablerow"
+                        <div style={{ overflow: 'scroll', height: '400px' }}>
+                            <Table dataTest="dhis2-uicore-table">
+                                <TableHead dataTest="dhis2-uicore-tablehead">
+                                    <TableRowHead dataTest="dhis2-uicore-tablerowhead">
+                                        <TableCellHead dataTest="dhis2-uicore-tablecellhead">
+                                            ID
+                                        </TableCellHead>
+                                        <TableCellHead
+                                            dataTest="dhis2-uicore-tablecellhead"
+                                            width="20px"
                                         >
-                                            <TableCell dataTest="dhis2-uicore-tablecell">
-                                                {person.tei}
-                                            </TableCell>
-                                            <TableCell dataTest="dhis2-uicore-tablecell">
-                                                {person.firstName}
-                                            </TableCell>
-                                            <TableCell dataTest="dhis2-uicore-tablecell">
-                                                {person.surName}
-                                            </TableCell>
-                                            <TableCell dataTest="dhis2-uicore-tablecell">
-                                                <Button
-                                                    onClick={() =>
-                                                        openCasesHandler(person)
-                                                    }
-                                                >
-                                                    View
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    )
-                                })}
-                            </TableBody>
-                        </Table>
+                                            Firstname
+                                        </TableCellHead>
+                                        <TableCellHead dataTest="dhis2-uicore-tablecellhead">
+                                            Lastname
+                                        </TableCellHead>
+                                        <TableCellHead dataTest="dhis2-uicore-tablecellhead"></TableCellHead>
+                                    </TableRowHead>
+                                </TableHead>
+                                <TableBody dataTest="dhis2-uicore-tablebody">
+                                    {cases.map(person => {
+                                        return (
+                                            <TableRow
+                                                key={person.tei}
+                                                dataTest="dhis2-uicore-tablerow"
+                                            >
+                                                <TableCell dataTest="dhis2-uicore-tablecell">
+                                                    {person.tei}
+                                                </TableCell>
+                                                <TableCell dataTest="dhis2-uicore-tablecell">
+                                                    {person.firstName}
+                                                </TableCell>
+                                                <TableCell dataTest="dhis2-uicore-tablecell">
+                                                    {person.surName}
+                                                </TableCell>
+                                                <TableCell dataTest="dhis2-uicore-tablecell">
+                                                    <Button
+                                                        onClick={() =>
+                                                            openCasesHandler(
+                                                                person
+                                                            )
+                                                        }
+                                                    >
+                                                        View
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        )
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </div>
+
                         <section>
                             <div className={stylesAccordion.box}>
                                 {props.attributes.location.lat ? (
                                     <MapComponent
                                         clusters={[
                                             {
+                                                tei: props.attributes.tei,
                                                 location: {
                                                     lat:
                                                         props.attributes
@@ -216,7 +228,9 @@ const accordion = React.memo(props => {
                                                         props.attributes
                                                             .location.lng,
                                                 },
+
                                                 name: props.attributes.name,
+
                                                 description:
                                                     props.attributes
                                                         .description,
@@ -270,7 +284,21 @@ const accordion = React.memo(props => {
     )
     return (
         <>
-            {error && <Modal>{error.message}</Modal>}
+            {isError && (
+                <Modal
+                    className={styles.Modal}
+                    dataTest="dhis2-uicore-modal"
+                    show={isError}
+                    onClose={clearError}
+                    position="middle"
+                    small
+                >
+                    <ModalTitle dataTest="dhis2-uicore-modaltitle">
+                        {error.type}
+                    </ModalTitle>
+                    <ModalContent>{error.message}</ModalContent>
+                </Modal>
+            )}
             {data && (
                 <TableRow suppressZebraStriping className={rowStyle}>
                     <TableCell dataTest="dhis2-uicore-tablecell">
@@ -297,7 +325,7 @@ const accordion = React.memo(props => {
                                       )
                                     : styles.accordion
                             }
-                            onClick={() => toggleRowHandler(casesArray)}
+                            onClick={() => toggleRowHandler(cases)}
                         ></button>
                     </TableCell>
                 </TableRow>
