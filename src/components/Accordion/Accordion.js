@@ -18,6 +18,7 @@ import {
     ModalContent,
     ModalTitle,
 } from '@dhis2/ui-core'
+
 const CASE_FIRSTNAME = 'First Name'
 const CASE_SURNAME = 'Surname'
 const CASE_AGE = 'Age'
@@ -219,6 +220,7 @@ const accordion = React.memo(props => {
                                     <MapComponent
                                         clusters={[
                                             {
+                                                status: props.attributes.status,
                                                 tei: props.attributes.tei,
                                                 location: {
                                                     lat:

@@ -32,14 +32,7 @@ const queryClusters = {
             paging: 'false',
             ou: 'uoPrVFsvJiY',
             program: 'plTOwEXJrb6',
-            fields: [
-                'orgUnit',
-                'trackedEntityInstance',
-                'lastUpdated',
-                'created',
-                'attributes',
-                'relationships',
-            ],
+            fields: '*',
         },
     },
 }
@@ -58,6 +51,7 @@ const MyApp = () => {
     if (data) {
         const entityInstances =
             data.trackedEntityInstances.trackedEntityInstances
+        console.log(data)
         const clustersArray = entityInstances.map(cluster => {
             const clusterObject = {
                 tei: '',
@@ -68,9 +62,13 @@ const MyApp = () => {
                 endDate: '-',
                 location: { lat: null, lng: null },
                 relationships: 0,
+                status: '-',
+                orgUnitName: '-',
             }
             clusterObject.tei = cluster.trackedEntityInstance
             clusterObject.relationships = cluster.relationships.length
+            clusterObject.status = cluster.enrollments[0].status
+            clusterObject.orgUnitName = cluster.enrollments[0].orgUnitName
 
             cluster.attributes.map(attr => {
                 const { value, displayName } = attr
@@ -90,6 +88,7 @@ const MyApp = () => {
                     clusterObject.location.lng = location[0]
                 }
             })
+
             return clusterObject
         })
         clusters.push(...clustersArray)

@@ -60,6 +60,7 @@ const ClusterInfo = props => {
                             <MapComponent
                                 clusters={[
                                     {
+                                        status: props.clusterInfo.status,
                                         tei: props.clusterInfo.tei,
                                         location: {
                                             lat: props.clusterInfo.location.lat,
@@ -105,12 +106,16 @@ const ClusterInfo = props => {
                 </section>
             </div>
             <section className={styles.secondContainer}>
-                <h1>Description: </h1>
+                <h1>Information: </h1>
                 <hr></hr>
                 <label>Cluster Type:</label>
                 <p>{props.clusterInfo.type}</p>
                 <label>Cluster Description:</label>
                 <p>{props.clusterInfo.description}</p>
+                <label>Status:</label>
+                <p>{props.clusterInfo.status}</p>
+                <label>Organiation Unit Name:</label>
+                <p>{props.clusterInfo.orgUnitName}</p>
             </section>
         </div>
     )
