@@ -15,7 +15,7 @@ const queryRelationships = {
 }
 
 const CaseInfo = props => {
-    const { error, data } = useDataQuery(queryRelationships, {
+    const { data } = useDataQuery(queryRelationships, {
         variables: {
             id: props.case.tei,
         },

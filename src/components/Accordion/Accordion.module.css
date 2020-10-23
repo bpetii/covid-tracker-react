@@ -31,3 +31,41 @@ section {
     margin: 10px;
     width: auto;
 }
+
+.ModalOpen {
+    animation: openModal 0.4 ease-out forwards;
+}
+
+@keyframes oepnModal {
+    0% {
+        opacity: 0;
+        transition: translateY(-100%);
+    }
+    50% {
+        opacity: 1;
+        transition: translateY(60%);
+    }
+    100% {
+        opacity: 1;
+        transition: translateY(0);
+    }
+}
+
+.ModalClosed {
+    animation: closeModal 0.4 ease-out forwards;
+}
+
+@keyframes closeModal {
+    0% {
+        opacity: 1;
+        transition: translateY(0);
+    }
+    50% {
+        opacity: 0.7;
+        transition: translateY(60%);
+    }
+    100% {
+        opacity: 0;
+        transition: translateY(-100%);
+    }
+}

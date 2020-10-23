@@ -114,9 +114,12 @@ const accordion = React.memo(props => {
         <>
             {isClusterinfoOpen && (
                 <Modal
-                    className={styles.Modal}
+                    className={
+                        isClusterinfoOpen
+                            ? stylesAccordion.ModalOpen
+                            : stylesAccordion.ModalClosed
+                    }
                     dataTest="dhis2-uicore-modal"
-                    show={isClusterinfoOpen}
                     onClose={openClusterHandler}
                     position="middle"
                     large

@@ -36,7 +36,7 @@
 }
 
 .text {
-    color: red  ;
+    color: red;
     background: transparent;
     border: 0;
     box-shadow: none;
@@ -56,20 +56,6 @@
     top: 0;
     background-color: rgba(0, 0, 0, 0.5);
 } */
-
-/* ------------------------------------------------------------------*/
-
-/* MODAL */
-.Modal {
-    z-index: 3500;
-}
-
-@media (min-width: 600px) {
-    .Modal {
-        width: auto;
-        left: calc(50% - 250px);
-    }
-}
 
 /* ------------------------------------------------------------------*/
 
@@ -154,8 +140,8 @@
 }
 
 .accordion {
-    background-color: #eee;
-    color: #444;
+    background-color: transparent;
+    color: transparent;
     cursor: pointer;
     padding: 18px;
     width: 100%;
