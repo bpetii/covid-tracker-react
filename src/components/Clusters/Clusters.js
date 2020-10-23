@@ -39,7 +39,6 @@ const Clusters = props => (
             </TableHead>
             <TableBody dataTest="dhis2-uicore-tablebody">
                 {props.clusters.map((attr, index) => {
-                    {console.log(new Date(attr.startDate))}
                     return (
                         <Accordion
                             key={attr.tei}
