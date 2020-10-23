@@ -81,9 +81,9 @@ const MyApp = () => {
                         clusterObject.description = value
                     if (displayName === CLUSTER_TYPE) clusterObject.type = value
                     if (displayName === CLUSTER_START_DATE)
-                        clusterObject.startDate = value
+                        clusterObject.startDate = formatDate(value)
                     if (displayName === CLUSTER_END_DATE)
-                        clusterObject.endDate = value
+                        clusterObject.endDate = formatDate(value)
                     if (displayName === CLUSTER_LOCATION) {
                         const location = value
                             .replace(/[^0-9 |.|,]/g, '')
@@ -100,6 +100,15 @@ const MyApp = () => {
             setIsError(true)
         }
     }, [data])
+
+    const formatDate = dateTime => {
+        const date = new Date(dateTime)
+        const year = date.getFullYear()
+        const month = date.getMonth() + 1
+        const day = date.getDate()
+        const formatted = year + '-' + month + '-' + day
+        return formatted
+    }
 
     const setClusterHandler = () => {
         setPage(true)
@@ -152,7 +161,9 @@ const MyApp = () => {
                         </Modal>
                     )}
                     {loading && (
-                        <CircularLoader dataTest="dhis2-uicore-circularloader" />
+                        <div className={styles.loading}>
+                            <CircularLoader dataTest="dhis2-uicore-circularloader" />
+                        </div>
                     )}
                     {cluster && data && (
                         <Clusters

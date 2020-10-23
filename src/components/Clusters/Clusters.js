@@ -7,7 +7,7 @@ import {
     TableCellHead,
     TableBody,
 } from '@dhis2/ui-core'
-
+import styles from '../../App.module.css'
 import Accordion from '../Accordion/Accordion'
 
 const Clusters = props => (
@@ -15,7 +15,10 @@ const Clusters = props => (
         {console.log('Clusters component')}
         <Table dataTest="dhis2-uicore-table">
             <TableHead dataTest="dhis2-uicore-tablehead">
-                <TableRowHead dataTest="dhis2-uicore-tablerowhead">
+                <TableRowHead
+                    dataTest="dhis2-uicore-tablerowhead"
+                    className={styles.headingColor}
+                >
                     <TableCellHead dataTest="dhis2-uicore-tablecellhead">
                         Name
                     </TableCellHead>
@@ -36,6 +39,7 @@ const Clusters = props => (
             </TableHead>
             <TableBody dataTest="dhis2-uicore-tablebody">
                 {props.clusters.map((attr, index) => {
+                    {console.log(new Date(attr.startDate))}
                     return (
                         <Accordion
                             key={attr.tei}

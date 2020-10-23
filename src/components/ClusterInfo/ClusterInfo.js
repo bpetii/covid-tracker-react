@@ -112,7 +112,16 @@ const ClusterInfo = props => {
                 <label>Cluster Description:</label>
                 <p>{props.clusterInfo.description}</p>
                 <label>Status:</label>
-                <p>{props.clusterInfo.status}</p>
+                <p
+                    style={{
+                        color:
+                            props.clusterInfo.status === 'COMPLETED'
+                                ? 'green'
+                                : 'red',
+                    }}
+                >
+                    {props.clusterInfo.status}
+                </p>
                 <label>Organiation Unit Name:</label>
                 <p>{props.clusterInfo.orgUnitName}</p>
             </section>
