@@ -65,8 +65,6 @@ const accordion = React.memo(props => {
 
     const scrollTo = ref => {
         if (ref) {
-            console.log(ref)
-
             ref.scrollIntoView({ behavior: 'smooth', block: 'start' })
         }
     }

@@ -6,6 +6,8 @@ import {
     TableRowHead,
     TableCellHead,
     TableBody,
+    Input,
+    Button,
 } from '@dhis2/ui-core'
 import styles from '../../App.module.css'
 import Accordion from '../Accordion/Accordion'
@@ -13,6 +15,10 @@ import Accordion from '../Accordion/Accordion'
 const Clusters = props => (
     <div>
         {console.log('Clusters component')}
+        <Input
+            placeholder="Search name"
+            onChange={event => props.clusterSearch(event.value)}
+        />
         <Table dataTest="dhis2-uicore-table">
             <TableHead dataTest="dhis2-uicore-tablehead">
                 <TableRowHead
