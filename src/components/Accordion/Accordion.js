@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDataQuery } from '@dhis2/app-runtime'
+import styles from '../../App.module.css'
 import ClusterInfo from '../ClusterInfo/ClusterInfo'
 import CasesInfo from '../CaseInfo/CaseInfo'
 import MapComponent from '../Map'
@@ -158,17 +159,20 @@ const accordion = React.memo(props => {
                 </Modal>
             )}
             <TableRow>
-                <TableCell colSpan="6" dataTest="dhis2-uicore-tablecell">
+                <TableCell
+                    suppressZebraStriping
+                    colSpan="6"
+                    dataTest="dhis2-uicore-tablecell"
+                    className={stylesAccordion.highlightBorder}
+                >
                     <div className={stylesAccordion.container}>
-                        <h2>Details:</h2>
-                        <br />
-                        <div style={{ overflow: 'scroll', height: '400px' }}>
+                        <div className={stylesAccordion.tableDetails}>
                             <Table dataTest="dhis2-uicore-table">
                                 <TableHead dataTest="dhis2-uicore-tablehead">
-                                    <TableRowHead dataTest="dhis2-uicore-tablerowhead">
-                                        <TableCellHead dataTest="dhis2-uicore-tablecellhead">
-                                            ID
-                                        </TableCellHead>
+                                    <TableRowHead
+                                        className={styles.headingColor}
+                                        dataTest="dhis2-uicore-tablerowhead"
+                                    >
                                         <TableCellHead
                                             dataTest="dhis2-uicore-tablecellhead"
                                             width="20px"
@@ -178,7 +182,9 @@ const accordion = React.memo(props => {
                                         <TableCellHead dataTest="dhis2-uicore-tablecellhead">
                                             Lastname
                                         </TableCellHead>
-                                        <TableCellHead dataTest="dhis2-uicore-tablecellhead"></TableCellHead>
+                                        <TableCellHead dataTest="dhis2-uicore-tablecellhead">
+                                            Details
+                                        </TableCellHead>
                                     </TableRowHead>
                                 </TableHead>
                                 <TableBody dataTest="dhis2-uicore-tablebody">
@@ -188,9 +194,6 @@ const accordion = React.memo(props => {
                                                 key={person.tei}
                                                 dataTest="dhis2-uicore-tablerow"
                                             >
-                                                <TableCell dataTest="dhis2-uicore-tablecell">
-                                                    {person.tei}
-                                                </TableCell>
                                                 <TableCell dataTest="dhis2-uicore-tablecell">
                                                     {person.firstName}
                                                 </TableCell>
@@ -215,7 +218,7 @@ const accordion = React.memo(props => {
                             </Table>
                         </div>
 
-                        <section>
+                        <section className={stylesAccordion.sectionContainer}>
                             <div className={stylesAccordion.box}>
                                 {props.attributes.location.lat ? (
                                     <MapComponent
@@ -257,13 +260,15 @@ const accordion = React.memo(props => {
                                 )}
                             </div>
                         </section>
-                        <Button
-                            onClick={openClusterHandler}
-                            className={stylesAccordion.table}
+                        <section
+                            className={`${stylesAccordion.sectionContainer} ${stylesAccordion.sectionBtn}`}
                         >
-                            Show more information
-                        </Button>
-                        <section>
+                            <Button
+                                onClick={openClusterHandler}
+                                className={stylesAccordion.openMappButton}
+                            >
+                                Show more information
+                            </Button>
                             <Button
                                 dataTest="dhis2-uicore-button"
                                 name="openmap"

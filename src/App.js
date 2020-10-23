@@ -152,7 +152,9 @@ const MyApp = () => {
                         </Modal>
                     )}
                     {loading && (
-                        <CircularLoader dataTest="dhis2-uicore-circularloader" />
+                        <div className={styles.loading}>
+                            <CircularLoader dataTest="dhis2-uicore-circularloader" />
+                        </div>
                     )}
                     {cluster && data && (
                         <Clusters
