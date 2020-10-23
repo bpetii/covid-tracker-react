@@ -289,7 +289,6 @@ const accordion = React.memo(props => {
         <>
             {isError && (
                 <Modal
-                    className={styles.Modal}
                     dataTest="dhis2-uicore-modal"
                     show={isError}
                     onClose={clearError}
