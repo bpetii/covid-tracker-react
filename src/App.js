@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import i18n from '@dhis2/d2-i18n'
 import 'leaflet/dist/leaflet.css'
 import 'react-leaflet-markercluster/dist/styles.min.css'
@@ -49,55 +49,57 @@ const MyApp = () => {
 
     const { loading, error, data } = useDataQuery(queryClusters)
 
-    const clusters = []
+    const [clusters, setClusters] = useState([])
 
-    if (data) {
-        const entityInstances =
-            data.trackedEntityInstances.trackedEntityInstances
-        console.log(data)
-        const clustersArray = entityInstances.map(cluster => {
-            const clusterObject = {
-                tei: '',
-                name: '-',
-                description: '-',
-                type: '-',
-                startDate: '-',
-                endDate: '-',
-                location: { lat: null, lng: null },
-                relationships: 0,
-                status: '-',
-                orgUnitName: '-',
-            }
-            clusterObject.tei = cluster.trackedEntityInstance
-            clusterObject.relationships = cluster.relationships.length
-            clusterObject.status = cluster.enrollments[0].status
-            clusterObject.orgUnitName = cluster.enrollments[0].orgUnitName
-
-            cluster.attributes.map(attr => {
-                const { value, displayName } = attr
-                if (displayName === CLUSTER_NAME) clusterObject.name = value
-                if (displayName === CLUSTER_DESCRIPTION)
-                    clusterObject.description = value
-                if (displayName === CLUSTER_TYPE) clusterObject.type = value
-                if (displayName === CLUSTER_START_DATE)
-                    clusterObject.startDate = value
-                if (displayName === CLUSTER_END_DATE)
-                    clusterObject.endDate = value
-                if (displayName === CLUSTER_LOCATION) {
-                    const location = value
-                        .replace(/[^0-9 |.|,]/g, '')
-                        .split(',')
-                    clusterObject.location.lat = location[1]
-                    clusterObject.location.lng = location[0]
+    useEffect(() => {
+        if (data) {
+            const entityInstances =
+                data.trackedEntityInstances.trackedEntityInstances
+            console.log(data)
+            const clustersArray = entityInstances.map(cluster => {
+                const clusterObject = {
+                    tei: '',
+                    name: '-',
+                    description: '-',
+                    type: '-',
+                    startDate: '-',
+                    endDate: '-',
+                    location: { lat: null, lng: null },
+                    relationships: 0,
+                    status: '-',
+                    orgUnitName: '-',
                 }
-            })
+                clusterObject.tei = cluster.trackedEntityInstance
+                clusterObject.relationships = cluster.relationships.length
+                clusterObject.status = cluster.enrollments[0].status
+                clusterObject.orgUnitName = cluster.enrollments[0].orgUnitName
 
-            return clusterObject
-        })
-        clusters.push(...clustersArray)
-    } else if (error) {
-        setIsError(true)
-    }
+                cluster.attributes.map(attr => {
+                    const { value, displayName } = attr
+                    if (displayName === CLUSTER_NAME) clusterObject.name = value
+                    if (displayName === CLUSTER_DESCRIPTION)
+                        clusterObject.description = value
+                    if (displayName === CLUSTER_TYPE) clusterObject.type = value
+                    if (displayName === CLUSTER_START_DATE)
+                        clusterObject.startDate = value
+                    if (displayName === CLUSTER_END_DATE)
+                        clusterObject.endDate = value
+                    if (displayName === CLUSTER_LOCATION) {
+                        const location = value
+                            .replace(/[^0-9 |.|,]/g, '')
+                            .split(',')
+                        clusterObject.location.lat = location[1]
+                        clusterObject.location.lng = location[0]
+                    }
+                })
+
+                return clusterObject
+            })
+            setClusters(clustersArray)
+        } else if (error) {
+            setIsError(true)
+        }
+    }, [data])
 
     const setClusterHandler = () => {
         setPage(true)

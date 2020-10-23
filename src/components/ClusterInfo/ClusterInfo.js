@@ -105,9 +105,8 @@ const ClusterInfo = props => {
                     </Button>
                 </section>
             </div>
+            <h1>Information: </h1>
             <section className={styles.secondContainer}>
-                <h1>Information: </h1>
-                <hr></hr>
                 <label>Cluster Type:</label>
                 <p>{props.clusterInfo.type}</p>
                 <label>Cluster Description:</label>

@@ -20,7 +20,7 @@ const CaseInfo = props => {
             id: props.case.tei,
         },
     })
-    let statusInfection = null
+    let statusInfection = 'not tested'
 
     if (data) {
         data.relationship.enrollments[0].events.map(event => {

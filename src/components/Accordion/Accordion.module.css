@@ -22,7 +22,7 @@
 .tableBody {
     overflow: scroll;
 }
-.openMappButton {
+.openMapButton {
     margin-left: 10px;
     width: 100%;
 }
@@ -32,40 +32,35 @@ section {
     width: auto;
 }
 
-.ModalOpen {
-    animation: openModal 0.4 ease-out forwards;
+.isActive {
+    background-color: #d4dde5;
 }
 
-@keyframes oepnModal {
-    0% {
-        opacity: 0;
-        transition: translateY(-100%);
-    }
-    50% {
-        opacity: 1;
-        transition: translateY(60%);
-    }
-    100% {
-        opacity: 1;
-        transition: translateY(0);
-    }
+.zebraStripping {
+    background-color: #f7fbfc;
 }
 
-.ModalClosed {
-    animation: closeModal 0.4 ease-out forwards;
+.accordion {
+    background-color: transparent;
+    color: transparent;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 1s all ease-out;
 }
 
-@keyframes closeModal {
-    0% {
-        opacity: 1;
-        transition: translateY(0);
-    }
-    50% {
-        opacity: 0.7;
-        transition: translateY(60%);
-    }
-    100% {
-        opacity: 0;
-        transition: translateY(-100%);
-    }
+.active,
+.accordion:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+}
+
+.active:after {
+    content: '\2212';
 }
