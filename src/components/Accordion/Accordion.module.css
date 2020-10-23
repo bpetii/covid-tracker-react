@@ -2,17 +2,18 @@
     width: 100%;
     height: 100%;
     font-size: 1rem;
+    border-top: 1px solid gray;
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns: minmax(auto, auto) 1fr;
-    grid-template-areas: 'sidebar main';
+    grid-template-columns: minmax(400px, auto) 1fr;
+    grid-template-areas:
+        'sidebar main'
+        'sidebar mapbtn';
 }
 
 .box {
     height: 100%;
     width: 100%;
-    border: 1px solid grey;
-    margin-left: 10px;
 }
 .table {
     margin: 10px 0 10px 0;
@@ -22,14 +23,32 @@
 .tableBody {
     overflow: scroll;
 }
+
+.tableDetails {
+    overflow: scroll;
+    overflow-x: hidden;
+    grid-area: sidebar;
+    max-height: 400px;
+    margin: 12px;
+}
 .openMappButton {
     margin-left: 10px;
     width: 100%;
 }
 
-section {
+.sectionContainer {
     margin: 10px;
-    width: auto;
+    width: 70%;
+    display: flex;
+    justify-self: center;
+}
+.sectionBtn {
+    display: flex;
+    justify-self: center;
+}
+.highlightBorder {
+    padding: 0 !important;
+    border: 1px solid gray !important;
 }
 
 .ModalOpen {

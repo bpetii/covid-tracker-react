@@ -163,3 +163,13 @@
 .active:after {
     content: '\2212';
 }
+
+.headingColor {
+    color: rgb(44, 102, 147);
+}
+
+@media (min-width: 1024px) {
+    .main {
+        margin: 1% 10%;
+    }
+}
