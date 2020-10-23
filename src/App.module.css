@@ -107,6 +107,12 @@
     -webkit-animation: load2 2s infinite ease;
     animation: load2 2s infinite ease;
 }
+.loading {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 @-webkit-keyframes load2 {
     0% {
         -webkit-transform: rotate(0deg);
