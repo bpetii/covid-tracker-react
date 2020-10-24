@@ -166,7 +166,7 @@ const MyApp = () => {
                         <Clusters
                             onOpenMap={setMapHandler}
                             clusters={clusters}
-                            loading = {loading}
+                            loading={loading}
                         />
                     )}
                 </div>
