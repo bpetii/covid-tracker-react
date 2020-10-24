@@ -14,22 +14,26 @@ import Accordion from '../Accordion/Accordion'
 const Clusters = React.memo(props => {
     Clusters.displayName = 'clusters'
     const [userInput, setUserInput] = useState('')
-    const [filteredClusters, setFilteredClusters] = useState([])
+    const [filteredClusters, setFilteredClusters] = useState(props.clusters)
     const inputRef = useRef()
 
     useEffect(() => {
-        setTimeout(() => {
-            if (userInput === inputRef.current.inputRef.current.value) {
-                setFilteredClusters(
-                    props.clusters.filter(cluster =>
-                        cluster.name
-                            .toUpperCase()
-                            .startsWith(userInput.toUpperCase())
+        if (userInput) {
+            setTimeout(() => {
+                if (userInput === inputRef.current.inputRef.current.value) {
+                    setFilteredClusters(
+                        props.clusters.filter(cluster =>
+                            cluster.name
+                                .toUpperCase()
+                                .startsWith(userInput.toUpperCase())
+                        )
                     )
-                )
-            }
-        }, 500)
-    }, [userInput, props.clusters])
+                }
+            }, 500)
+        } else {
+            setFilteredClusters(props.clusters)
+        }
+    }, [userInput])
 
     return (
         <>
