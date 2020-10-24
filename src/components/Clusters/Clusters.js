@@ -11,29 +11,32 @@ import {
 import styles from '../../App.module.css'
 import Accordion from '../Accordion/Accordion'
 
-const Clusters = props => {
+const Clusters = React.memo(props => {
+    Clusters.displayName = 'clusters'
     const [userInput, setUserInput] = useState('')
-    const [filteredClusters, setFilteredClusters] = useState([])
+    const [filteredClusters, setFilteredClusters] = useState(props.clusters)
     const inputRef = useRef()
 
     useEffect(() => {
-        setTimeout(() => {
-            if (userInput === inputRef.current.inputRef.current.value) {
-                setFilteredClusters(
-                    props.clusters.filter(cluster =>
-                        cluster.name
-                            .toUpperCase()
-                            .startsWith(userInput.toUpperCase())
+        if (userInput) {
+            setTimeout(() => {
+                if (userInput === inputRef.current.inputRef.current.value) {
+                    setFilteredClusters(
+                        props.clusters.filter(cluster =>
+                            cluster.name
+                                .toUpperCase()
+                                .startsWith(userInput.toUpperCase())
+                        )
                     )
-                )
-            } else {
-                setFilteredClusters(props.clusters)
-            }
-        }, 500)
-    }, [userInput, props.clusters])
+                }
+            }, 500)
+        } else {
+            setFilteredClusters(props.clusters)
+        }
+    }, [userInput])
 
     return (
-        <div>
+        <>
             {console.log('Clusters component')}
 
             <Input
@@ -41,6 +44,7 @@ const Clusters = props => {
                 onChange={event => setUserInput(event.value)}
                 ref={inputRef}
             />
+
             <Table dataTest="dhis2-uicore-table">
                 <TableHead dataTest="dhis2-uicore-tablehead">
                     <TableRowHead
@@ -65,6 +69,7 @@ const Clusters = props => {
                         <TableCellHead dataTest="dhis2-uicore-tablecellhead"></TableCellHead>
                     </TableRowHead>
                 </TableHead>
+
                 <TableBody dataTest="dhis2-uicore-tablebody">
                     {filteredClusters.map((attr, index) => {
                         return (
@@ -78,7 +83,7 @@ const Clusters = props => {
                     })}
                 </TableBody>
             </Table>
-        </div>
+        </>
     )
-}
+})
 export default Clusters

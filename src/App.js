@@ -49,57 +49,7 @@ const MyApp = () => {
 
     const { loading, error, data } = useDataQuery(queryClusters)
 
-    const [clusters, setClusters] = useState([])
-
-    useEffect(() => {
-        if (data) {
-            const entityInstances =
-                data.trackedEntityInstances.trackedEntityInstances
-
-            const clustersArray = entityInstances.map(cluster => {
-                const clusterObject = {
-                    tei: '',
-                    name: '-',
-                    description: '-',
-                    type: '-',
-                    startDate: '-',
-                    endDate: '-',
-                    location: { lat: null, lng: null },
-                    relationships: 0,
-                    status: '-',
-                    orgUnitName: '-',
-                }
-                clusterObject.tei = cluster.trackedEntityInstance
-                clusterObject.relationships = cluster.relationships.length
-                clusterObject.status = cluster.enrollments[0].status
-                clusterObject.orgUnitName = cluster.enrollments[0].orgUnitName
-
-                cluster.attributes.map(attr => {
-                    const { value, displayName } = attr
-                    if (displayName === CLUSTER_NAME) clusterObject.name = value
-                    if (displayName === CLUSTER_DESCRIPTION)
-                        clusterObject.description = value
-                    if (displayName === CLUSTER_TYPE) clusterObject.type = value
-                    if (displayName === CLUSTER_START_DATE)
-                        clusterObject.startDate = formatDate(value)
-                    if (displayName === CLUSTER_END_DATE)
-                        clusterObject.endDate = formatDate(value)
-                    if (displayName === CLUSTER_LOCATION) {
-                        const location = value
-                            .replace(/[^0-9 |.|,]/g, '')
-                            .split(',')
-                        clusterObject.location.lat = location[1]
-                        clusterObject.location.lng = location[0]
-                    }
-                })
-
-                return clusterObject
-            })
-            setClusters(clustersArray)
-        } else if (error) {
-            setIsError(true)
-        }
-    }, [data])
+    const clusters = []
 
     const formatDate = dateTime => {
         const date = new Date(dateTime)
@@ -108,6 +58,54 @@ const MyApp = () => {
         const day = date.getDate()
         const formatted = year + '-' + month + '-' + day
         return formatted
+    }
+
+    if (data) {
+        const entityInstances =
+            data.trackedEntityInstances.trackedEntityInstances
+
+        const clustersArray = entityInstances.map(cluster => {
+            const clusterObject = {
+                tei: '',
+                name: '-',
+                description: '-',
+                type: '-',
+                startDate: '-',
+                endDate: '-',
+                location: { lat: null, lng: null },
+                relationships: 0,
+                status: '-',
+                orgUnitName: '-',
+            }
+            clusterObject.tei = cluster.trackedEntityInstance
+            clusterObject.relationships = cluster.relationships.length
+            clusterObject.status = cluster.enrollments[0].status
+            clusterObject.orgUnitName = cluster.enrollments[0].orgUnitName
+
+            cluster.attributes.map(attr => {
+                const { value, displayName } = attr
+                if (displayName === CLUSTER_NAME) clusterObject.name = value
+                if (displayName === CLUSTER_DESCRIPTION)
+                    clusterObject.description = value
+                if (displayName === CLUSTER_TYPE) clusterObject.type = value
+                if (displayName === CLUSTER_START_DATE)
+                    clusterObject.startDate = formatDate(value)
+                if (displayName === CLUSTER_END_DATE)
+                    clusterObject.endDate = formatDate(value)
+                if (displayName === CLUSTER_LOCATION) {
+                    const location = value
+                        .replace(/[^0-9 |.|,]/g, '')
+                        .split(',')
+                    clusterObject.location.lat = location[1]
+                    clusterObject.location.lng = location[0]
+                }
+            })
+
+            return clusterObject
+        })
+        clusters.push(...clustersArray)
+    } else if (error) {
+        setIsError(true)
     }
 
     const setClusterHandler = () => {
@@ -149,7 +147,6 @@ const MyApp = () => {
                         <Modal
                             className={styles.Modal}
                             dataTest="dhis2-uicore-modal"
-                            show={isError}
                             onClose={clearError}
                             position="middle"
                             small
@@ -169,6 +166,7 @@ const MyApp = () => {
                         <Clusters
                             onOpenMap={setMapHandler}
                             clusters={clusters}
+                            loading={loading}
                         />
                     )}
                 </div>
