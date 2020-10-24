@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import styles from '../../App.module.css'
+import React, { useState, useRef } from 'react'
 import { useDataQuery } from '@dhis2/app-runtime'
+import styles from '../../App.module.css'
 import ClusterInfo from '../ClusterInfo/ClusterInfo'
 import CasesInfo from '../CaseInfo/CaseInfo'
 import MapComponent from '../Map'
@@ -17,6 +17,7 @@ import {
     Modal,
     ModalContent,
     ModalTitle,
+    Input,
 } from '@dhis2/ui-core'
 
 const CASE_FIRSTNAME = 'First Name'
@@ -43,6 +44,7 @@ const accordion = React.memo(props => {
     const [isCasesInfoOpen, setCasesInfo] = useState(false)
     const [selectedPerson, setSelectedPerson] = useState(null)
     const [isError, setIsError] = useState(false)
+
     const cases = []
 
     const { error, data } = useDataQuery(queryRelationships, {
@@ -51,9 +53,21 @@ const accordion = React.memo(props => {
         },
     })
 
-    let rowStyle = props.index % 2 ? styles.zebraStripping : null
+    const cssButton = [
+        stylesAccordion.accordion,
+        isToggled
+            ? [stylesAccordion.active].join(' ')
+            : stylesAccordion.accordion,
+    ]
+    let rowStyle = props.index % 2 ? stylesAccordion.zebraStripping : null
     if (isToggled) {
-        rowStyle = styles.isActive
+        rowStyle = stylesAccordion.isActive
+    }
+
+    const scrollTo = ref => {
+        if (ref) {
+            ref.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
     }
 
     if (isToggled) {
@@ -114,11 +128,6 @@ const accordion = React.memo(props => {
         <>
             {isClusterinfoOpen && (
                 <Modal
-                    className={
-                        isClusterinfoOpen
-                            ? stylesAccordion.ModalOpen
-                            : stylesAccordion.ModalClosed
-                    }
                     dataTest="dhis2-uicore-modal"
                     onClose={openClusterHandler}
                     position="middle"
@@ -147,7 +156,6 @@ const accordion = React.memo(props => {
 
             {isCasesInfoOpen && (
                 <Modal
-                    className={styles.Modal}
                     dataTest="dhis2-uicore-modal"
                     show={isCasesInfoOpen}
                     onClose={openCasesHandler}
@@ -158,7 +166,6 @@ const accordion = React.memo(props => {
                     </ModalContent>
                 </Modal>
             )}
-
             <TableRow>
                 <TableCell
                     suppressZebraStriping
@@ -275,7 +282,7 @@ const accordion = React.memo(props => {
                                 name="openmap"
                                 type="button"
                                 value="Open Map"
-                                className={stylesAccordion.openMappButton}
+                                className={stylesAccordion.openMapButton}
                                 onClick={() =>
                                     props.onClickMap(
                                         props.attributes.location,
@@ -295,7 +302,6 @@ const accordion = React.memo(props => {
         <>
             {isError && (
                 <Modal
-                    className={styles.Modal}
                     dataTest="dhis2-uicore-modal"
                     show={isError}
                     onClose={clearError}
@@ -327,13 +333,8 @@ const accordion = React.memo(props => {
                     </TableCell>
                     <TableCell>
                         <button
-                            className={
-                                isToggled
-                                    ? [styles.accordion, styles.active].join(
-                                          ' '
-                                      )
-                                    : styles.accordion
-                            }
+                            ref={scrollTo}
+                            className={cssButton.join(' ')}
                             onClick={() => toggleRowHandler(cases)}
                         ></button>
                     </TableCell>
