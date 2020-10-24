@@ -17,6 +17,7 @@ import {
     Modal,
     ModalContent,
     ModalTitle,
+    Input,
 } from '@dhis2/ui-core'
 
 const CASE_FIRSTNAME = 'First Name'

@@ -11,6 +11,7 @@ import {
     TableRow,
     TableCell,
     Button,
+    Input,
 } from '@dhis2/ui-core'
 
 const ClusterInfo = props => {

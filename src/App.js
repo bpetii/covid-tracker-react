@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import i18n from '@dhis2/d2-i18n'
 import 'leaflet/dist/leaflet.css'
 import 'react-leaflet-markercluster/dist/styles.min.css'
@@ -46,7 +46,6 @@ const MyApp = () => {
     const [clickedTei, setTei] = useState(null)
     const [location, setLocation] = useState(AVDAL_LOCATION)
     const [isError, setIsError] = useState(false)
-    const [userInput, setUserInput] = useState('')
 
     const { loading, error, data } = useDataQuery(queryClusters)
 
@@ -119,10 +118,6 @@ const MyApp = () => {
         setIsError(false)
     }
 
-    const searchHandler = input => {
-        setUserInput(input)
-    }
-
     const setMapHandler = (location, tei) => {
         setLocation({ lat: location.lat, lng: location.lng })
         setTei(tei)
@@ -173,14 +168,7 @@ const MyApp = () => {
                     {cluster && data && (
                         <Clusters
                             onOpenMap={setMapHandler}
-                            clusters={
-                                userInput
-                                    ? clusters.filter(cluster =>
-                                          cluster.name.startsWith(userInput)
-                                      )
-                                    : clusters
-                            }
-                            clusterSearch={searchHandler}
+                            clusters={clusters}
                         />
                     )}
                 </div>
