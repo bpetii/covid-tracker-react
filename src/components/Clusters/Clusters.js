@@ -12,6 +12,7 @@ import styles from '../../App.module.css'
 import Accordion from '../Accordion/Accordion'
 
 const Clusters = React.memo(props => {
+    Clusters.displayName = 'clusters'
     const [userInput, setUserInput] = useState('')
     const [filteredClusters, setFilteredClusters] = useState([])
     const inputRef = useRef()
@@ -26,8 +27,6 @@ const Clusters = React.memo(props => {
                             .startsWith(userInput.toUpperCase())
                     )
                 )
-            } else {
-                setFilteredClusters(props.clusters)
             }
         }, 500)
     }, [userInput, props.clusters])
