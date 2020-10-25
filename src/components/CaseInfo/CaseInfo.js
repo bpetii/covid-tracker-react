@@ -53,25 +53,26 @@ const CaseInfo = props => {
                     <h1 className={styles.fullName}>
                         {props.case.firstName} {props.case.surName}
                     </h1>
+
+                    <section className={styles.container}>
+                        <label>Status:</label>
+                        <p>{statusInfection}</p>
+                        <label>First Name:</label>
+                        <p>{props.case.firstName}</p>
+                        <label>Last Name:</label>
+                        <p>{props.case.surName}</p>
+                        <label>Date of Birth:</label>
+                        <p>{props.case.birthDate}</p>
+                        <label>Age:</label>
+                        <p>{props.case.age} </p>
+                        <label>Sex:</label>
+                        <p>{props.case.sex}</p>
+                        <label>National ID number:</label>
+                        <p>{props.case.numberId}</p>
+                        <label>Country of birth:</label>
+                        <p>{`${continent}/${country}`}</p>
+                    </section>
                 </CenteredContent>
-                <section className={styles.container}>
-                    <label>Status:</label>
-                    <p>{statusInfection}</p>
-                    <label>First Name:</label>
-                    <p>{props.case.firstName}</p>
-                    <label>Last Name:</label>
-                    <p>{props.case.surName}</p>
-                    <label>Date of Birth:</label>
-                    <p>{props.case.birthDate}</p>
-                    <label>Age:</label>
-                    <p>{props.case.age} </p>
-                    <label>Sex:</label>
-                    <p>{props.case.sex}</p>
-                    <label>National ID number:</label>
-                    <p>{props.case.numberId}</p>
-                    <label>Country of birth:</label>
-                    <p>{`${continent}/${country}`}</p>
-                </section>
             </>
         )
     )

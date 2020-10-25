@@ -226,74 +226,55 @@ const accordion = React.memo(props => {
                             </Table>
                         </div>
 
-                        <section className={stylesAccordion.sectionContainer}>
-                            <div className={stylesAccordion.box}>
-                                {props.attributes.location.lat ? (
-                                    <MapComponent
-                                        clusters={[
-                                            {
-                                                status: props.attributes.status,
-                                                tei: props.attributes.tei,
-                                                location: {
-                                                    lat:
-                                                        props.attributes
-                                                            .location.lat,
-                                                    lng:
-                                                        props.attributes
-                                                            .location.lng,
-                                                },
-
-                                                name: props.attributes.name,
-
-                                                description:
-                                                    props.attributes
-                                                        .description,
-                                                isBig: false,
-                                                relationships:
-                                                    props.attributes
-                                                        .relationships,
+                        <div className={stylesAccordion.box}>
+                            {props.attributes.location.lat ? (
+                                <MapComponent
+                                    clusters={[
+                                        {
+                                            status: props.attributes.status,
+                                            tei: props.attributes.tei,
+                                            location: {
+                                                lat:
+                                                    props.attributes.location
+                                                        .lat,
+                                                lng:
+                                                    props.attributes.location
+                                                        .lng,
                                             },
-                                        ]}
-                                    />
-                                ) : (
-                                    <p
-                                        style={{
-                                            position: 'relative',
-                                            top: '40%',
-                                            left: '30%',
-                                        }}
-                                    >
-                                        No coordiation
-                                    </p>
-                                )}
-                            </div>
-                        </section>
-                        <section
-                            className={`${stylesAccordion.sectionContainer} ${stylesAccordion.sectionBtn}`}
-                        >
-                            <Button
-                                onClick={openClusterHandler}
-                                className={stylesAccordion.openMappButton}
-                            >
-                                Show more information
-                            </Button>
-                            <Button
-                                dataTest="dhis2-uicore-button"
-                                name="openmap"
-                                type="button"
-                                value="Open Map"
-                                className={stylesAccordion.openMapButton}
-                                onClick={() =>
-                                    props.onClickMap(
-                                        props.attributes.location,
-                                        props.attributes.tei
-                                    )
-                                }
-                            >
-                                Open Map
-                            </Button>
-                        </section>
+
+                                            name: props.attributes.name,
+
+                                            description:
+                                                props.attributes.description,
+                                            isBig: false,
+                                            relationships:
+                                                props.attributes.relationships,
+                                        },
+                                    ]}
+                                />
+                            ) : (
+                                <p
+                                    style={{
+                                        position: 'relative',
+                                        top: '40%',
+                                        left: '30%',
+                                    }}
+                                >
+                                    No coordiation
+                                </p>
+                            )}
+                        </div>
                     </div>
+                    <section
+                        className={`${stylesAccordion.sectionContainer} ${stylesAccordion.sectionBtn}`}
+                    >
+                        <Button
+                            onClick={openClusterHandler}
+                            className={stylesAccordion.showMoreInformationBtn}
+                        >
+                            Show more information about this cluster
+                        </Button>
+                    </section>
                 </TableCell>
             </TableRow>
         </>
