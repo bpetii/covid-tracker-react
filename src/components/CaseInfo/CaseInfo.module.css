@@ -1,27 +1,28 @@
 .container {
-    width: 450px;
-    height: 100%;
-    font-size: 1rem;
-    display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: minmax(200px, auto) 1fr;
-    grid-template-areas: 'sidebar main';
-    padding: 10px;
-    border: 1px solid rgb(232, 237, 242);
     background-color: #f2f9ff;
-    margin: 10px;
+    border: 1px solid #e8edf2;
+    display: grid;
+    font-size: 1rem;
+    grid-template-areas: 'sidebar main';
+    grid-template-columns: minmax(200px, auto) 1fr;
+    grid-template-rows: 1fr;
+    height: 100%;
+    padding: 10px;
+    width: 450px;
 }
 
 .container p {
-    margin: 0 0 16px 0;
+    background-color: #fff;
+    border: 1px solid #e8edf2;
+    margin: 0 0 16px;
     padding: 16px;
-    background-color: white;
-    border: 1px solid rgb(232, 237, 242);
 }
+
 .container label {
     color: #4287bd;
     padding: 16px;
 }
+
 .fullName {
-    color: rgb(44, 102, 147);
+    color: #2c6693;
 }
