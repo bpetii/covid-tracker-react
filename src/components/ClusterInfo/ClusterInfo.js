@@ -84,26 +84,28 @@ const ClusterInfo = props => {
                                     left: '30%',
                                 }}
                             >
-                                No coordiation
+                                No coordinates
                             </p>
                         )}
                     </div>
 
-                    <Button
-                        dataTest="dhis2-uicore-button"
-                        name="openmap"
-                        type="button"
-                        value="Open Map"
-                        className={styles.openMappButton}
-                        onClick={() =>
-                            props.onOpenBigMap(
-                                props.clusterInfo.location,
-                                props.clusterInfo.tei
-                            )
-                        }
-                    >
-                        Open Map
-                    </Button>
+                    {props.clusterInfo.location.lat && (
+                        <Button
+                            dataTest="dhis2-uicore-button"
+                            name="openmap"
+                            type="button"
+                            value="Open Map"
+                            className={styles.openMappButton}
+                            onClick={() =>
+                                props.onOpenBigMap(
+                                    props.clusterInfo.location,
+                                    props.clusterInfo.tei
+                                )
+                            }
+                        >
+                            Open Map
+                        </Button>
+                    )}
                 </section>
             </div>
             <h1>Information: </h1>

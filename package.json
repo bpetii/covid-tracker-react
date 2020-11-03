@@ -33,7 +33,6 @@
         "country-code-lookup": "^0.0.18",
         "leaflet": "^1.7.1",
         "react-leaflet": "^2.7.0",
-        "react-leaflet-markercluster": "^2.0.0",
-        "react-minimal-pie-chart": "^8.0.1"
+        "react-leaflet-markercluster": "^2.0.0"
     }
 }

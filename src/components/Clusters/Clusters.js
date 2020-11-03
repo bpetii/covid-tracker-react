@@ -69,7 +69,6 @@ const Clusters = React.memo(props => {
                         <TableCellHead dataTest="dhis2-uicore-tablecellhead"></TableCellHead>
                     </TableRowHead>
                 </TableHead>
-                
                 <TableBody dataTest="dhis2-uicore-tablebody">
                     {filteredClusters.map((attr, index) => {
                         return (

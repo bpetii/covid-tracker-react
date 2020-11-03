@@ -266,7 +266,7 @@ const accordion = React.memo(props => {
                                         left: '30%',
                                     }}
                                 >
-                                    No coordiation
+                                    No coordinates
                                 </p>
                             )}
                         </div>
