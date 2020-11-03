@@ -17,7 +17,6 @@ import {
     Modal,
     ModalContent,
     ModalTitle,
-    Input,
 } from '@dhis2/ui-core'
 
 const CASE_FIRSTNAME = 'First Name'
@@ -134,7 +133,11 @@ const accordion = React.memo(props => {
                     large
                 >
                     <ModalTitle dataTest="dhis2-uicore-modaltitle">
-                        <div style={{ display: 'inline', fontSize: '0.em' }}>
+                        <div>
+                            <Button onClick={openClusterHandler}>Back</Button>
+                        </div>
+
+                        <div style={{ display: 'inline' }}>
                             <h1 style={{ float: 'left' }}>
                                 {props.attributes.name}
                             </h1>
@@ -161,6 +164,9 @@ const accordion = React.memo(props => {
                     onClose={openCasesHandler}
                     position="middle"
                 >
+                    <ModalTitle dataTest="dhis2-uicore-modaltitle">
+                        <Button onClick={openCasesHandler}>Back</Button>
+                    </ModalTitle>
                     <ModalContent>
                         <CasesInfo case={selectedPerson} />
                     </ModalContent>
