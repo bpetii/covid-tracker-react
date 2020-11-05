@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { useDataQuery } from '@dhis2/app-runtime'
 import styles from '../../App.module.css'
 import ClusterInfo from '../ClusterInfo/ClusterInfo'
@@ -37,7 +37,6 @@ const queryRelationships = {
 }
 
 const accordion = React.memo(props => {
-    console.log('Accordion component')
     const [isToggled, setToggle] = useState(false)
     const [isClusterinfoOpen, setClusterInfo] = useState(false)
     const [isCasesInfoOpen, setCasesInfo] = useState(false)

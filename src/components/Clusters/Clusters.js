@@ -37,14 +37,11 @@ const Clusters = React.memo(props => {
 
     return (
         <>
-            {console.log('Clusters component')}
-
             <Input
                 placeholder="Search name"
                 onChange={event => setUserInput(event.value)}
                 ref={inputRef}
             />
-
             <Table dataTest="dhis2-uicore-table">
                 <TableHead dataTest="dhis2-uicore-tablehead">
                     <TableRowHead
