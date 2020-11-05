@@ -1,31 +1,18 @@
 import React, { useState } from 'react'
 import { useDataQuery } from '@dhis2/app-runtime'
-import styles from '../../App.module.css'
 import ClusterInfo from '../ClusterInfo/ClusterInfo'
 import CasesInfo from '../CaseInfo/CaseInfo'
-import MapComponent from '../Map'
+import AccordionModal from './AccordionModal'
+import AccordionRow from './AccordionRow'
 import stylesAccordion from './Accordion.module.css'
+import { extract_relationshps } from './Helpers'
 import {
-    Table,
-    TableHead,
-    TableRowHead,
-    TableCellHead,
-    TableBody,
     TableRow,
     TableCell,
-    Button,
     Modal,
     ModalContent,
     ModalTitle,
 } from '@dhis2/ui-core'
-
-const CASE_FIRSTNAME = 'First Name'
-const CASE_SURNAME = 'Surname'
-const CASE_AGE = 'Age'
-const CASE_SEX = 'Sex'
-const CASE_COUNTRY = 'Country of birth'
-const CASE_NUMBERID = 'National ID number'
-const CASE_BIRTHDATE = 'Date of birth'
 
 const queryRelationships = {
     relationship: {
@@ -70,35 +57,7 @@ const accordion = React.memo(props => {
 
     if (isToggled) {
         if (data) {
-            const relationships = data.relationship.map(relationship => {
-                const caseObject = {
-                    tei: '',
-                    firstName: '-',
-                    surName: '-',
-                    sex: '-',
-                    numberId: '-',
-                    country: '-',
-                    age: '-',
-                    birthDate: '-',
-                }
-                caseObject.tei =
-                    relationship.from.trackedEntityInstance.trackedEntityInstance
-
-                relationship.from.trackedEntityInstance.attributes.map(attr => {
-                    const { value, displayName } = attr
-                    if (displayName === CASE_FIRSTNAME)
-                        caseObject.firstName = value
-                    if (displayName === CASE_SURNAME) caseObject.surName = value
-                    if (displayName === CASE_SEX) caseObject.sex = value
-                    if (displayName === CASE_AGE) caseObject.age = value
-                    if (displayName === CASE_COUNTRY) caseObject.country = value
-                    if (displayName === CASE_NUMBERID)
-                        caseObject.numberId = value
-                    if (displayName === CASE_BIRTHDATE)
-                        caseObject.birthDate = value
-                })
-                return caseObject
-            })
+            const relationships = extract_relationshps(data)
             cases.push(...relationships)
         } else if (error) {
             setIsError(true)
@@ -125,163 +84,26 @@ const accordion = React.memo(props => {
     const toggledRow = (
         <>
             {isClusterinfoOpen && (
-                <Modal
-                    dataTest="dhis2-uicore-modal"
-                    onClose={openClusterHandler}
-                    position="middle"
-                    large
-                >
-                    <ModalTitle dataTest="dhis2-uicore-modaltitle">
-                        <div>
-                            <Button onClick={openClusterHandler}>Back</Button>
-                        </div>
-
-                        <div style={{ display: 'inline' }}>
-                            <h1 style={{ float: 'left' }}>
-                                {props.attributes.name}
-                            </h1>
-                            <h1 style={{ float: 'right' }}>
-                                Cases: {props.attributes.relationships}
-                            </h1>
-                        </div>
-                    </ModalTitle>
-
-                    <ModalContent>
-                        <ClusterInfo
-                            cases={cases}
-                            clusterInfo={props.attributes}
-                            onOpenBigMap={props.onClickMap}
-                        />
-                    </ModalContent>
-                </Modal>
+                <AccordionModal handler={openClusterHandler} large={true}>
+                    <ClusterInfo
+                        cases={cases}
+                        clusterInfo={props.attributes}
+                        onOpenBigMap={props.onClickMap}
+                    />
+                </AccordionModal>
             )}
 
             {isCasesInfoOpen && (
-                <Modal
-                    dataTest="dhis2-uicore-modal"
-                    show={isCasesInfoOpen}
-                    onClose={openCasesHandler}
-                    position="middle"
-                >
-                    <ModalTitle dataTest="dhis2-uicore-modaltitle">
-                        <Button onClick={openCasesHandler}>Back</Button>
-                    </ModalTitle>
-                    <ModalContent>
-                        <CasesInfo case={selectedPerson} />
-                    </ModalContent>
-                </Modal>
+                <AccordionModal handler={openCasesHandler} show={true}>
+                    <CasesInfo case={selectedPerson} />
+                </AccordionModal>
             )}
-            <TableRow>
-                <TableCell
-                    suppressZebraStriping
-                    colSpan="6"
-                    dataTest="dhis2-uicore-tablecell"
-                    className={stylesAccordion.highlightBorder}
-                >
-                    <div className={stylesAccordion.container}>
-                        <div className={stylesAccordion.tableDetails}>
-                            <Table dataTest="dhis2-uicore-table">
-                                <TableHead dataTest="dhis2-uicore-tablehead">
-                                    <TableRowHead
-                                        className={styles.headingColor}
-                                        dataTest="dhis2-uicore-tablerowhead"
-                                    >
-                                        <TableCellHead
-                                            dataTest="dhis2-uicore-tablecellhead"
-                                            width="20px"
-                                        >
-                                            Firstname
-                                        </TableCellHead>
-                                        <TableCellHead dataTest="dhis2-uicore-tablecellhead">
-                                            Lastname
-                                        </TableCellHead>
-                                        <TableCellHead dataTest="dhis2-uicore-tablecellhead">
-                                            Details
-                                        </TableCellHead>
-                                    </TableRowHead>
-                                </TableHead>
-                                <TableBody dataTest="dhis2-uicore-tablebody">
-                                    {cases.map(person => {
-                                        return (
-                                            <TableRow
-                                                key={person.tei}
-                                                dataTest="dhis2-uicore-tablerow"
-                                            >
-                                                <TableCell dataTest="dhis2-uicore-tablecell">
-                                                    {person.firstName}
-                                                </TableCell>
-                                                <TableCell dataTest="dhis2-uicore-tablecell">
-                                                    {person.surName}
-                                                </TableCell>
-                                                <TableCell dataTest="dhis2-uicore-tablecell">
-                                                    <Button
-                                                        onClick={() =>
-                                                            openCasesHandler(
-                                                                person
-                                                            )
-                                                        }
-                                                    >
-                                                        View
-                                                    </Button>
-                                                </TableCell>
-                                            </TableRow>
-                                        )
-                                    })}
-                                </TableBody>
-                            </Table>
-                        </div>
-
-                        <div className={stylesAccordion.box}>
-                            {props.attributes.location.lat ? (
-                                <MapComponent
-                                    clusters={[
-                                        {
-                                            status: props.attributes.status,
-                                            tei: props.attributes.tei,
-                                            location: {
-                                                lat:
-                                                    props.attributes.location
-                                                        .lat,
-                                                lng:
-                                                    props.attributes.location
-                                                        .lng,
-                                            },
-
-                                            name: props.attributes.name,
-
-                                            description:
-                                                props.attributes.description,
-                                            isBig: false,
-                                            relationships:
-                                                props.attributes.relationships,
-                                        },
-                                    ]}
-                                />
-                            ) : (
-                                <p
-                                    style={{
-                                        position: 'relative',
-                                        top: '40%',
-                                        left: '30%',
-                                    }}
-                                >
-                                    No coordinates
-                                </p>
-                            )}
-                        </div>
-                    </div>
-                    <section
-                        className={`${stylesAccordion.sectionContainer} ${stylesAccordion.sectionBtn}`}
-                    >
-                        <Button
-                            onClick={openClusterHandler}
-                            className={stylesAccordion.showMoreInformationBtn}
-                        >
-                            Show more information about this cluster
-                        </Button>
-                    </section>
-                </TableCell>
-            </TableRow>
+            <AccordionRow
+                attributes={props.attributes}
+                cases={cases}
+                openCasesHandler={openCasesHandler}
+                openClusterHandler={openClusterHandler}
+            />
         </>
     )
     return (
@@ -326,7 +148,6 @@ const accordion = React.memo(props => {
                     </TableCell>
                 </TableRow>
             )}
-
             {isToggled ? toggledRow : null}
         </>
     )
