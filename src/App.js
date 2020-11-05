@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 import i18n from '@dhis2/d2-i18n'
 import 'leaflet/dist/leaflet.css'
 import 'react-leaflet-markercluster/dist/styles.min.css'
@@ -41,7 +41,6 @@ const queryClusters = {
 }
 
 const MyApp = () => {
-    console.log('App component')
     const [cluster, setPage] = useState(true)
     const [clickedTei, setTei] = useState(null)
     const [location, setLocation] = useState(AVDAL_LOCATION)
