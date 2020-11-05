@@ -84,7 +84,7 @@ const accordion = React.memo(props => {
     const toggledRow = (
         <>
             {isClusterinfoOpen && (
-                <AccordionModal handler={openClusterHandler} large={true}>
+                <AccordionModal handler={openClusterHandler} large={true} attributes={props.attributes}>
                     <ClusterInfo
                         cases={cases}
                         clusterInfo={props.attributes}
@@ -94,7 +94,7 @@ const accordion = React.memo(props => {
             )}
 
             {isCasesInfoOpen && (
-                <AccordionModal handler={openCasesHandler} show={true}>
+                <AccordionModal handler={openCasesHandler} show={true} attributes={selectedPerson}>
                     <CasesInfo case={selectedPerson} />
                 </AccordionModal>
             )}

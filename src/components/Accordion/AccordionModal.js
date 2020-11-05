@@ -13,6 +13,8 @@ const AccordionModal = props => {
     if (props && props.show) {
         show = true
     }
+
+    console.log(props.attributes)
     return (
         <Modal
             dataTest="dhis2-uicore-modal"
@@ -29,9 +31,11 @@ const AccordionModal = props => {
 
                 <div style={{ display: 'inline' }}>
                     <h1 style={{ float: 'left' }}>{props.attributes.name}</h1>
-                    <h1 style={{ float: 'right' }}>
-                        Cases: {props.attributes.relationships}
-                    </h1>
+                    {props.attributes.type && (
+                        <h1 style={{ float: 'right' }}>
+                            Cases: {props.attributes.relationships}
+                        </h1>
+                    )}
                 </div>
             </ModalTitle>
 
