@@ -19,6 +19,10 @@ $ yarn
 $ yarn start
 ```
 
+## App and Components outline
+
+App.js handles the query for the resource - trackedEntityInstances the result is extracted and stored as a state - "clusters". The clusters is then passed through as props to the to main components - Clusters and Map, and rendered. Clusters component consist of a simple search function and a dhis2/ui-core table. Clusters component renders the Accordion component in the body of the table. Accordion is a react memo component which only will re render if props change. This can be a potential speedup. The Accordion component queries relationships, extracts the data and renders a Modal, a TableRow and the map component. The accordions modal renders the ClusterInfo or CasesInfo component based on click events. Clusterinfo contains a table with the persons in the cluster and casesinfo shows more information about a specific person.
+
 ## Git workflow
 
 When commiting to git husky will check that all files are formatted correctly and that the commit message is on the right format.
